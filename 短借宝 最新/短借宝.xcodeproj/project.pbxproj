@@ -2091,7 +2091,7 @@
 				TargetAttributes = {
 					7FE64DA41B4A79A200DAD165 = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = GP8BUACAG4;
+						DevelopmentTeam = JT6M7XYGJW;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2489,8 +2489,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Heilongjiang Short By Financial Services Outsourcing Co.,Ltd. (JT6M7XYGJW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Heilongjiang Short By Financial Services Outsourcing Co.,Ltd. (JT6M7XYGJW)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2507,9 +2507,9 @@
 					"$(PROJECT_DIR)/Classes/Public/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/Classes/Public/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.oracle.duanjiebao;
+				PRODUCT_BUNDLE_IDENTIFIER = duanjiebao;
 				PRODUCT_NAME = duanjie;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "4aeb2df9-1668-490c-878f-371983aa575f";
 				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Controllers/Left/GeRenXinYu/短借宝-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -2521,8 +2521,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Heilongjiang Short By Financial Services Outsourcing Co.,Ltd. (JT6M7XYGJW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Heilongjiang Short By Financial Services Outsourcing Co.,Ltd. (JT6M7XYGJW)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2539,9 +2539,9 @@
 					"$(PROJECT_DIR)/Classes/Public/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/Classes/Public/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.oracle.duanjiebao;
+				PRODUCT_BUNDLE_IDENTIFIER = duanjiebao;
 				PRODUCT_NAME = duanjie;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "4aeb2df9-1668-490c-878f-371983aa575f";
 				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Controllers/Left/GeRenXinYu/短借宝-Bridging-Header.h";
 			};
 			name = Release;

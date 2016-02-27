@@ -141,6 +141,9 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if(self.view.frame.size.width<325){
+        _ll.font=[UIFont systemFontOfSize:19];
+    }
    // [self.navigationController setNavigationBarHidden:YES];
 }
 
