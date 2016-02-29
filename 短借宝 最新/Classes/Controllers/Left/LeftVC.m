@@ -41,10 +41,10 @@
     
     if (([[defaults objectForKey:@"tag"]intValue]==1)&& myDic2!=nil) {
         
-        self.ll.text= [myDic2 valueForKey:@"name"];
+       // self.ll.text= [myDic2 valueForKey:@"name"];
         _xinxi.hidden=NO;
         _geren.hidden=NO;
-        
+        _ll.hidden=YES;
         
     }else
     {
@@ -76,7 +76,7 @@
     _xinxi.hidden=NO;
     _geren.hidden=NO;
     _ll.hidden = YES;
-    self.ll.text=user;
+    //self.ll.text=user;
     
 }
 
