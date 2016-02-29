@@ -116,57 +116,74 @@
         NSLog(@"url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"aaaaaa%@",responseObject);
-        
-        if ( [[responseObject objectForKey:@"flag"] intValue]==1) {
-            
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            
-            HUD.mode = MBProgressHUDModeText;
-            
-            HUD.labelText = @"修改成功";
-            
-            HUD.margin = 10.f;
-            
-            HUD.removeFromSuperViewOnHide=YES;
-            
-            [HUD hide:YES afterDelay:3];
-            
-            NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
-            
-            
-            NSDictionary *myDictionary=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.XinMiMa.text, nil] forKeys:[NSArray arrayWithObjects:@"pass", nil]];
-            
-            [mySettingData setObject:myDictionary forKey:@"myDictionary"];
-            //  强制让数据立刻保存
-            
-            [mySettingData synchronize];
-            
-            //                        MainVC *l=[self.storyboard instantiateViewControllerWithIdentifier:@"MainVC" ];
-            
-            [self.navigationController
-             popToRootViewControllerAnimated:YES];
-            
-            
-        }
-        else
+        @try
         {
+            NSLog(@"aaaaaa%@",responseObject);
+            
+            if ( [[responseObject objectForKey:@"flag"] intValue]==1) {
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = @"修改成功";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:3];
+                
+                NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+                
+                
+                NSDictionary *myDictionary=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.XinMiMa.text, nil] forKeys:[NSArray arrayWithObjects:@"pass", nil]];
+                
+                [mySettingData setObject:myDictionary forKey:@"myDictionary"];
+                //  强制让数据立刻保存
+                
+                [mySettingData synchronize];
+                
+                //                        MainVC *l=[self.storyboard instantiateViewControllerWithIdentifier:@"MainVC" ];
+                
+                [self.navigationController
+                 popToRootViewControllerAnimated:YES];
+                
+                
+            }
+            else
+            {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = [responseObject objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:3];
+                
+            }
+            
+            
+
+            
+        }
+        @catch (NSException * e) {
             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
             HUD.mode = MBProgressHUDModeText;
             
-            HUD.labelText = [responseObject objectForKey:@"massages"];
+            HUD.labelText=@"请检查你的网络连接!";
             
             HUD.margin = 10.f;
             
             HUD.removeFromSuperViewOnHide=YES;
             
-            [HUD hide:YES afterDelay:3];
-            
+            [HUD hide:YES afterDelay:1];
         }
-        
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

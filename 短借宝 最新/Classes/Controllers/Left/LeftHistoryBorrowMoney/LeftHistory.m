@@ -140,34 +140,47 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
-        
-        [HUD hide:YES];
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        
-        if (resultDic.count==0) {
-            NSLog(@"已经是最后一页");
-        }else{
-
-        [self.array addObjectsFromArray:resultDic];
+        @try
+        {
+            NSLog(@"%@",responseObject);
             
-            NSLog(@"rrrr%lu",(unsigned long)self.array.count);
+            [HUD hide:YES];
             
-            [self.tableView reloadData];
-
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
             
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            
+            
+            if (resultDic.count==0) {
+                NSLog(@"已经是最后一页");
+            }else{
+                
+                [self.array addObjectsFromArray:resultDic];
+                
+                NSLog(@"rrrr%lu",(unsigned long)self.array.count);
+                
+                [self.tableView reloadData];
+                
+                
+            }
+      
         }
-        
-        
-
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
         
         [HUD hide:YES];

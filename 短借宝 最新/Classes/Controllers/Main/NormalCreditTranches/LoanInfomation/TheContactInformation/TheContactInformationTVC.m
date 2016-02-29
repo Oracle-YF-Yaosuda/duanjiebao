@@ -203,49 +203,67 @@
     
     [manager POST:url1 parameters:@{@"grxx_lxr":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"responseObject-------%@",responseObject);
-        
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"resultDic-------%@",resultDic);
-        
-        NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
-        
-        
-        
-        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-        
-        
-        [defaults3 setObject:[dic objectForKey:@"jjlxr_dy"] forKey:@"LianXiRenXinXi_DaoYuanName_Field"];//紧急联系人导员姓名
-        [defaults3 setObject:[dic objectForKey:@"jjlxr_dysjh"] forKey:@"LianXiRenXinXi_DaoYuanPhoneNum_Field"];//紧急联系人导员手机号
-        [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1"] forKey:@"LianXiRenXinXi_XueShengName_Field"];//紧急联系人同学1姓名
-        [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum_Field"];//紧急联系人同学1手机号
-        [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2"] forKey:@"LianXiRenXinXi_XueShengName2_Field"];//紧急联系人同学2姓名
-        [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum2_Field"];//紧急联系人同学2手机号
-        [defaults3 setObject:[dic objectForKey:@"lxrdh"] forKey:@"LianXiRenXinXi_PhoneNum_Field"];//紧急联系人（父&母）电话号
-        [defaults3 setObject:[dic objectForKey:@"lxrgx"] forKey:@"fumu"];//紧急联系人选择（父&母）
-        [defaults3 setObject:[dic objectForKey:@"lxrxm"] forKey:@"LianXiRenXinXi_Name_Field"];//紧急联系人（父&母）姓名
-        
-        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
-        HUD.mode = MBProgressHUDModeText;
-        
-        HUD.labelText = @"上传成功";
-        
-        HUD.margin = 10.f;
-        
-        HUD.removeFromSuperViewOnHide=YES;
-        
-        [HUD hide:YES afterDelay:1];
+             @try
+        {
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"resultDic-------%@",resultDic);
+            
+            NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
+            
+            
+            
+            NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+            
+            
+            [defaults3 setObject:[dic objectForKey:@"jjlxr_dy"] forKey:@"LianXiRenXinXi_DaoYuanName_Field"];//紧急联系人导员姓名
+            [defaults3 setObject:[dic objectForKey:@"jjlxr_dysjh"] forKey:@"LianXiRenXinXi_DaoYuanPhoneNum_Field"];//紧急联系人导员手机号
+            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1"] forKey:@"LianXiRenXinXi_XueShengName_Field"];//紧急联系人同学1姓名
+            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum_Field"];//紧急联系人同学1手机号
+            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2"] forKey:@"LianXiRenXinXi_XueShengName2_Field"];//紧急联系人同学2姓名
+            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum2_Field"];//紧急联系人同学2手机号
+            [defaults3 setObject:[dic objectForKey:@"lxrdh"] forKey:@"LianXiRenXinXi_PhoneNum_Field"];//紧急联系人（父&母）电话号
+            [defaults3 setObject:[dic objectForKey:@"lxrgx"] forKey:@"fumu"];//紧急联系人选择（父&母）
+            [defaults3 setObject:[dic objectForKey:@"lxrxm"] forKey:@"LianXiRenXinXi_Name_Field"];//紧急联系人（父&母）姓名
+            
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText = @"上传成功";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
 #pragma 更改
-        //[self.delegate hid3];
+            //[self.delegate hid3];
+            
+            [self.navigationController
+             popViewControllerAnimated:YES];
+            
+            
+            
+        }
+        @catch (NSException * e) {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"请检查你的网络连接!";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+            }
         
-        [self.navigationController
-         popViewControllerAnimated:YES];
+        
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

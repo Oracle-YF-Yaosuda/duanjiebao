@@ -80,83 +80,100 @@
         //        NSLog(@"url--%@",url2);
         
         [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            //            NSLog(@"%@",responseObject);
-            NSDictionary *weatherInfo = [responseObject objectForKey:@"jdlv"];
-            
-            
-            self.ConViewHeight.constant = [UIScreen mainScreen].bounds.size.height;
-            self.ConVIewWeight.constant = [UIScreen mainScreen].bounds.size.width;
-            
-            
-            
-            _huankuanshuoming.numberOfLines = 0;
-            UIFont * tfont = [UIFont systemFontOfSize:12];
-            _huankuanshuoming.font = tfont;
-            _huankuanshuoming.backgroundColor = [UIColor whiteColor];
-            _huankuanshuoming.text=[NSString stringWithFormat:@"\t%@",[weatherInfo objectForKey:@"lvsm"]];
-            
-            self.pt_jblv=[weatherInfo[@"pt_jblv"] floatValue];
-            NSLog(@"----------------------%.2f",_pt_jblv);
-            //线程
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // 更新界面
-                [_topSlider setThumbImage:[UIImage imageNamed:@"putongjiekuan_17"] forState:UIControlStateNormal];
-                [_bottomSlider setThumbImage:[UIImage imageNamed:@"putongjiekuan_15"] forState:UIControlStateNormal];
-                // Do any additional setup after loading the view.
+            @try
+            {
+                
+                //            NSLog(@"%@",responseObject);
+                NSDictionary *weatherInfo = [responseObject objectForKey:@"jdlv"];
                 
                 
-                NSNumberFormatter *tempFormatter1 = [[NSNumberFormatter alloc] init];
-                //后尾加两零
-                [tempFormatter1 setPositiveSuffix:@"00"];
-                [tempFormatter1 setNegativeSuffix:@"00"];
-                
-                self.topSlider.minimumValue = [weatherInfo[@"jkjemin"] intValue]/100;
-                self.topSlider.maximumValue = [weatherInfo[@"jkjemax"] intValue]/100;
-                
-                
-                self.topSlider.dataSource = self;
-                [self.topSlider setNumberFormatter:tempFormatter1];
-                //    圆角
-                self.topSlider.popUpViewCornerRadius = 16.0;
-                
-                self.topSlider.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:13];
-                self.topSlider.textColor = [UIColor whiteColor];
-                
-                UIColor *coldBlue = [UIColor colorWithRed:41/255.0 green:182/255.0 blue:246/255.0 alpha:1];
-                
-                
-                self.topSlider.popUpViewAnimatedColors = @[coldBlue];
-                
-                //    2
-                
-                NSNumberFormatter *tempFormatter = [[NSNumberFormatter alloc] init];
-                [tempFormatter setPositiveSuffix:@""];
-                [tempFormatter setNegativeSuffix:@""];
+                self.ConViewHeight.constant = [UIScreen mainScreen].bounds.size.height;
+                self.ConVIewWeight.constant = [UIScreen mainScreen].bounds.size.width;
                 
                 
                 
+                _huankuanshuoming.numberOfLines = 0;
+                UIFont * tfont = [UIFont systemFontOfSize:12];
+                _huankuanshuoming.font = tfont;
+                _huankuanshuoming.backgroundColor = [UIColor whiteColor];
+                _huankuanshuoming.text=[NSString stringWithFormat:@"\t%@",[weatherInfo objectForKey:@"lvsm"]];
                 
-                self.bottomSlider.minimumValue = [weatherInfo[@"jkqxmin"] intValue];
-                self.bottomSlider.maximumValue = [weatherInfo[@"jkqxmax"] intValue];
+                self.pt_jblv=[weatherInfo[@"pt_jblv"] floatValue];
+                NSLog(@"----------------------%.2f",_pt_jblv);
+                //线程
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // 更新界面
+                    [_topSlider setThumbImage:[UIImage imageNamed:@"putongjiekuan_17"] forState:UIControlStateNormal];
+                    [_bottomSlider setThumbImage:[UIImage imageNamed:@"putongjiekuan_15"] forState:UIControlStateNormal];
+                    // Do any additional setup after loading the view.
+                    
+                    
+                    NSNumberFormatter *tempFormatter1 = [[NSNumberFormatter alloc] init];
+                    //后尾加两零
+                    [tempFormatter1 setPositiveSuffix:@"00"];
+                    [tempFormatter1 setNegativeSuffix:@"00"];
+                    
+                    self.topSlider.minimumValue = [weatherInfo[@"jkjemin"] intValue]/100;
+                    self.topSlider.maximumValue = [weatherInfo[@"jkjemax"] intValue]/100;
+                    
+                    
+                    self.topSlider.dataSource = self;
+                    [self.topSlider setNumberFormatter:tempFormatter1];
+                    //    圆角
+                    self.topSlider.popUpViewCornerRadius = 16.0;
+                    
+                    self.topSlider.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:13];
+                    self.topSlider.textColor = [UIColor whiteColor];
+                    
+                    UIColor *coldBlue = [UIColor colorWithRed:41/255.0 green:182/255.0 blue:246/255.0 alpha:1];
+                    
+                    
+                    self.topSlider.popUpViewAnimatedColors = @[coldBlue];
+                    
+                    //    2
+                    
+                    NSNumberFormatter *tempFormatter = [[NSNumberFormatter alloc] init];
+                    [tempFormatter setPositiveSuffix:@""];
+                    [tempFormatter setNegativeSuffix:@""];
+                    
+                    
+                    
+                    
+                    self.bottomSlider.minimumValue = [weatherInfo[@"jkqxmin"] intValue];
+                    self.bottomSlider.maximumValue = [weatherInfo[@"jkqxmax"] intValue];
+                    
+                    
+                    self.bottomSlider.dataSource = self;
+                    [self.bottomSlider setNumberFormatter:tempFormatter];
+                    //    圆角
+                    self.bottomSlider.popUpViewCornerRadius = 16.0;
+                    
+                    self.bottomSlider.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:13];
+                    self.bottomSlider.textColor = [UIColor whiteColor];
+                    
+                    
+                    UIColor *koldBlue = [UIColor colorWithRed:121/255.0 green:188/255.0 blue:50/255.0 alpha:1];
+                    self.bottomSlider.popUpViewAnimatedColors = @[koldBlue];
+                    
+                    [HUD hide:YES];
+                    
+                });
                 
-                
-                self.bottomSlider.dataSource = self;
-                [self.bottomSlider setNumberFormatter:tempFormatter];
-                //    圆角
-                self.bottomSlider.popUpViewCornerRadius = 16.0;
-                
-                self.bottomSlider.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:13];
-                self.bottomSlider.textColor = [UIColor whiteColor];
-                
-                
-                UIColor *koldBlue = [UIColor colorWithRed:121/255.0 green:188/255.0 blue:50/255.0 alpha:1];
-                self.bottomSlider.popUpViewAnimatedColors = @[koldBlue];
-                
-                [HUD hide:YES];
 
-            });
-            
+            }
+            @catch (NSException * e) {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"请检查你的网络连接!";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+            }
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

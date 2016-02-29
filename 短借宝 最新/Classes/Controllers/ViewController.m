@@ -292,168 +292,185 @@
     
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"\n----------------%@",responseObject);
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        NSLog(@"--0--%@",resultDic );
-
-        
-        NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
-        NSDictionary *dic1=[resultDic objectForKey:@"hyzh"];
-        
-        
-        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-        //flag   判断0或1   登录
-        [defaults3 setObject:[resultDic objectForKey:@"flag"] forKey:@"true"];
-        if (![[dic objectForKey:@"hyxm"]isEqualToString: @"null"]) {
-            [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];
-            [defaults3 setObject:[dic objectForKey:@"jtzz"] forKey:@"JiaTingZhuZhi"];
+        @try
+        {
+            NSLog(@"\n----------------%@",responseObject);
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
             
-            [defaults3 setObject:[dic objectForKey:@"address"] forKey:@"GeRenXinXi_ShengShiQu_Field"];//地址
-            [defaults3 setObject:[dic objectForKey:@"csrq"] forKey:@"GeRenXinXi_ShengRi_Field"];//生日
-            [defaults3 setObject:[dic objectForKey:@"fjh"] forKey:@"FangJianHao"];//房间号
-            if ([[dic objectForKey:@"xl"] isEqual:@"null"]) {
-                [defaults3 setObject:@" "  forKey:@"XUeHao"];
-            }
-            else{
-                [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];
-            }
-
-           // [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];//会员学号
-            [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"GeRenXinXi_Name_Field"];
-            //会员姓名
-            //[defaults3 setObject:[dic objectForKey:@"id"] forKey:@"id"];//会员id
-            [defaults3 setObject:[dic objectForKey:@"sex"] forKey:@"xingbie"];//性别
-            [defaults3 setObject:[dic objectForKey:@"sfzh"] forKey:@"GeRenXinXi_ShenFenZhenHao_Field"];//身份证号
-            [defaults3 setObject:[dic objectForKey:@"ssdz"] forKey:@"SuSheDiZhi"];//宿舍地址
-            [defaults3 setObject:[dic objectForKey:@"sslh"] forKey:@"GongYuHao"];//宿舍楼号
-            [defaults3 setObject:[dic objectForKey:@"szbj"] forKey:@"GeRenXinXi_BanJi_Field"];//所在班级
-            [defaults3 setObject:[dic objectForKey:@"szdx"] forKey:@"GeRenXinXi_SuoZaiDaXue_Field"];//所在大学
-            [defaults3 setObject:[dic objectForKey:@"szzy"] forKey:@"GeRenXinXi_SuoZaiZhuanYe_Field"];//所在专业
-            //        [defaults3 setObject:[dic objectForKey:@"zhid"] forKey:@"zhid"];//会员账号id
-            [defaults3 setObject:[dic objectForKey:@"xxwps"] forKey:@"GeRenXinXi_XueXinWangMiMai_Field"];//学信网密码
-            [defaults3 setObject:[dic objectForKey:@"xxwzh"] forKey:@"GeRenXinXi_XueXinWangZhangHao_Field"];//学信网账号
-        }else{
-            [defaults3 setObject:@"" forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];
-            [defaults3 setObject:@"" forKey:@"JiaTingZhuZhi"];
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
             
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_ShengShiQu_Field"];//地址
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_ShengRi_Field"];//生日
-            [defaults3 setObject:@""forKey:@"FangJianHao"];//房间号
+            NSLog(@"--0--%@",resultDic );
             
-            [defaults3 setObject:@"" forKey:@"XUeHao"];//会员学号
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_Name_Field"];//会员姓名
-            [defaults3 setObject:@"" forKey:@"xingbie"];//性别
-            [defaults3 setObject:@"" forKey:@"SuSheDiZhi"];//宿舍地址
-            [defaults3 setObject:@"" forKey:@"GongYuHao"];//宿舍楼号
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_BanJi_Field"];//所在班级
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_SuoZaiDaXue_Field"];//所在大学
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_SuoZaiZhuanYe_Field"];//所在专业
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_XueXinWangMiMai_Field"];//学信网密码
-            [defaults3 setObject:@"" forKey:@"GeRenXinXi_XueXinWangZhangHao_Field"];//学信网账号
-        }
-        
-        if (![[dic objectForKey:@"skyhkh"]isEqualToString:@"null"]) {
-            //银行卡信息页面
-#warning 银行卡信息页面
             
-            [defaults3 setObject:[dic objectForKey:@"skyh"] forKey:@"bank"];//收款银行
-            [defaults3 setObject:[dic objectForKey:@"skyhkh"] forKey:@"YinHangKaXinXi_YinHangKaHao_Field"];//收款银行卡号
-            if ([[dic objectForKey:@"khhmc"] isEqual:@"null"]) {
-                [defaults3 setObject:@" "  forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
-            }
-            else{
-                [defaults3 setObject:[dic objectForKey:@"khhmc"] forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
-            }
-        }else {
-            //银行卡信息页面
-#warning 银行卡信息页面
-            [defaults3 setObject:@"" forKey:@"bank"];//收款银行
-            [defaults3 setObject:@"" forKey:@"YinHangKaXinXi_YinHangKaHao_Field"];//收款银行卡号
-            [defaults3 setObject:@"" forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
-        }
-        if (![[dic objectForKey:@"lxrdh"]isEqualToString:@"null"]) {
-            //联系人页面
-#warning 联系人页面
-            [defaults3 setObject:[dic objectForKey:@"jjlxr_dy"] forKey:@"LianXiRenXinXi_DaoYuanName_Field"];//紧急联系人导员姓名
-            [defaults3 setObject:[dic objectForKey:@"jjlxr_dysjh"] forKey:@"LianXiRenXinXi_DaoYuanPhoneNum_Field"];//紧急联系人导员手机号
-            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1"] forKey:@"LianXiRenXinXi_XueShengName_Field"];//紧急联系人同学1姓名
-            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum_Field"];//紧急联系人同学1手机号
-            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2"] forKey:@"LianXiRenXinXi_XueShengName2_Field"];//紧急联系人同学2姓名
-            [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum2_Field"];//紧急联系人同学2手机号
-            [defaults3 setObject:[dic objectForKey:@"lxrdh"] forKey:@"LianXiRenXinXi_PhoneNum_Field"];//紧急联系人（父&母）电话号
-            [defaults3 setObject:[dic objectForKey:@"lxrgx"] forKey:@"fumu"];//紧急联系人选择（父&母）
-            [defaults3 setObject:[dic objectForKey:@"lxrxm"] forKey:@"LianXiRenXinXi_Name_Field"];//紧急联系人（父&母）姓名
-        }else{
-            //联系人页面
-#warning 联系人页面
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_DaoYuanName_Field"];//紧急联系人导员姓名
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_DaoYuanPhoneNum_Field"];//紧急联系人导员手机号
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengName_Field"];//紧急联系人同学1姓名
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengPhoneNum_Field"];//紧急联系人同学1手机号
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengName2_Field"];//紧急联系人同学2姓名
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengPhoneNum2_Field"];//紧急联系人同学2手机号
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_PhoneNum_Field"];//紧急联系人（父&母）电话号
-            [defaults3 setObject:@"" forKey:@"fumu"];//紧急联系人选择（父&母）
-            [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_Name_Field"];//紧急联系人（父&母）姓名
-        }
-        if (![[dic objectForKey:@"zjz1"]isEqualToString:@"null"]&&![[dic objectForKey:@"zjz2"]isEqualToString:@"null"]&&![[dic objectForKey:@"zjz3"]isEqualToString:@"null"]&&![[dic objectForKey:@"zjz4"]isEqualToString:@"null"]) {
-            //照片资料页面
-#warning 照片资料页面
-            [defaults3 setObject:[dic objectForKey:@"zjz1"] forKey:@"zjz1"];//身份证
-            [defaults3 setObject:[dic objectForKey:@"zjz2"] forKey:@"zjz2"];//学生证
-            [defaults3 setObject:[dic objectForKey:@"zjz3"] forKey:@"zjz3"];//个人自拍
-            [defaults3 setObject:[dic objectForKey:@"zjz4"] forKey:@"zjz4"];//个人自拍
-        }
-        else{
-            //照片资料页面
-#warning 照片资料页面
-            [defaults3 setObject:@"" forKey:@"zjz1"];//身份证
-            [defaults3 setObject:@"" forKey:@"zjz2"];//学生证
-            [defaults3 setObject:@"" forKey:@"zjz3"];//个人自拍
-            [defaults3 setObject:@"" forKey:@"zjz4"];//身份证翻面
-        }
-        
-                //        hyzh
-                //会员黑名单
-                [defaults3 setObject:[dic1 objectForKey:@"hmdbs"]forKey:@"HeiMingDan"];
-                //会员诚信值
-                [defaults3 setObject:[dic1 objectForKey:@"hycxz"]forKey:@"HuiYuanChengXinZhi"];
-                //会员积分
-                [defaults3 setObject:[dic1 objectForKey:@"hyjf"]forKey:@"HuiYuanJiFen"];
-                [defaults3 setObject:[dic1 objectForKey:@"id"]forKey:@"hyid"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"password"]forKey:@"password"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"shbs"]forKey:@"shbs"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"shsj"]forKey:@"shsj"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"sjhm"]forKey:@"sjhm"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"username"]forKey:@"username"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"xxwsbs"]forKey:@"xxwsbs"];
-                //        [defaults3 setObject:[dic1 objectForKey:@"zcsj"]forKey:@"zcsj"];
-
+            NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
+            NSDictionary *dic1=[resultDic objectForKey:@"hyzh"];
+            
+            
+            NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+            //flag   判断0或1   登录
+            [defaults3 setObject:[resultDic objectForKey:@"flag"] forKey:@"true"];
+            if (![[dic objectForKey:@"hyxm"]isEqualToString: @"null"]) {
+                [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];
+                [defaults3 setObject:[dic objectForKey:@"jtzz"] forKey:@"JiaTingZhuZhi"];
                 
+                [defaults3 setObject:[dic objectForKey:@"address"] forKey:@"GeRenXinXi_ShengShiQu_Field"];//地址
+                [defaults3 setObject:[dic objectForKey:@"csrq"] forKey:@"GeRenXinXi_ShengRi_Field"];//生日
+                [defaults3 setObject:[dic objectForKey:@"fjh"] forKey:@"FangJianHao"];//房间号
+                if ([[dic objectForKey:@"xl"] isEqual:@"null"]) {
+                    [defaults3 setObject:@" "  forKey:@"XUeHao"];
+                }
+                else{
+                    [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];
+                }
+                
+                // [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];//会员学号
+                [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"GeRenXinXi_Name_Field"];
+                //会员姓名
+                //[defaults3 setObject:[dic objectForKey:@"id"] forKey:@"id"];//会员id
+                [defaults3 setObject:[dic objectForKey:@"sex"] forKey:@"xingbie"];//性别
+                [defaults3 setObject:[dic objectForKey:@"sfzh"] forKey:@"GeRenXinXi_ShenFenZhenHao_Field"];//身份证号
+                [defaults3 setObject:[dic objectForKey:@"ssdz"] forKey:@"SuSheDiZhi"];//宿舍地址
+                [defaults3 setObject:[dic objectForKey:@"sslh"] forKey:@"GongYuHao"];//宿舍楼号
+                [defaults3 setObject:[dic objectForKey:@"szbj"] forKey:@"GeRenXinXi_BanJi_Field"];//所在班级
+                [defaults3 setObject:[dic objectForKey:@"szdx"] forKey:@"GeRenXinXi_SuoZaiDaXue_Field"];//所在大学
+                [defaults3 setObject:[dic objectForKey:@"szzy"] forKey:@"GeRenXinXi_SuoZaiZhuanYe_Field"];//所在专业
+                //        [defaults3 setObject:[dic objectForKey:@"zhid"] forKey:@"zhid"];//会员账号id
+                [defaults3 setObject:[dic objectForKey:@"xxwps"] forKey:@"GeRenXinXi_XueXinWangMiMai_Field"];//学信网密码
+                [defaults3 setObject:[dic objectForKey:@"xxwzh"] forKey:@"GeRenXinXi_XueXinWangZhangHao_Field"];//学信网账号
+            }else{
+                [defaults3 setObject:@"" forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];
+                [defaults3 setObject:@"" forKey:@"JiaTingZhuZhi"];
+                
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_ShengShiQu_Field"];//地址
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_ShengRi_Field"];//生日
+                [defaults3 setObject:@""forKey:@"FangJianHao"];//房间号
+                
+                [defaults3 setObject:@"" forKey:@"XUeHao"];//会员学号
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_Name_Field"];//会员姓名
+                [defaults3 setObject:@"" forKey:@"xingbie"];//性别
+                [defaults3 setObject:@"" forKey:@"SuSheDiZhi"];//宿舍地址
+                [defaults3 setObject:@"" forKey:@"GongYuHao"];//宿舍楼号
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_BanJi_Field"];//所在班级
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_SuoZaiDaXue_Field"];//所在大学
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_SuoZaiZhuanYe_Field"];//所在专业
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_XueXinWangMiMai_Field"];//学信网密码
+                [defaults3 setObject:@"" forKey:@"GeRenXinXi_XueXinWangZhangHao_Field"];//学信网账号
+            }
             
-        
-        [self ShiFouFeYiDaiKuan];
+            if (![[dic objectForKey:@"skyhkh"]isEqualToString:@"null"]) {
+                //银行卡信息页面
+#warning 银行卡信息页面
+                
+                [defaults3 setObject:[dic objectForKey:@"skyh"] forKey:@"bank"];//收款银行
+                [defaults3 setObject:[dic objectForKey:@"skyhkh"] forKey:@"YinHangKaXinXi_YinHangKaHao_Field"];//收款银行卡号
+                if ([[dic objectForKey:@"khhmc"] isEqual:@"null"]) {
+                    [defaults3 setObject:@" "  forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
+                }
+                else{
+                    [defaults3 setObject:[dic objectForKey:@"khhmc"] forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
+                }
+            }else {
+                //银行卡信息页面
+#warning 银行卡信息页面
+                [defaults3 setObject:@"" forKey:@"bank"];//收款银行
+                [defaults3 setObject:@"" forKey:@"YinHangKaXinXi_YinHangKaHao_Field"];//收款银行卡号
+                [defaults3 setObject:@"" forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
+            }
+            if (![[dic objectForKey:@"lxrdh"]isEqualToString:@"null"]) {
+                //联系人页面
+#warning 联系人页面
+                [defaults3 setObject:[dic objectForKey:@"jjlxr_dy"] forKey:@"LianXiRenXinXi_DaoYuanName_Field"];//紧急联系人导员姓名
+                [defaults3 setObject:[dic objectForKey:@"jjlxr_dysjh"] forKey:@"LianXiRenXinXi_DaoYuanPhoneNum_Field"];//紧急联系人导员手机号
+                [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1"] forKey:@"LianXiRenXinXi_XueShengName_Field"];//紧急联系人同学1姓名
+                [defaults3 setObject:[dic objectForKey:@"jjlxr_tx1sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum_Field"];//紧急联系人同学1手机号
+                [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2"] forKey:@"LianXiRenXinXi_XueShengName2_Field"];//紧急联系人同学2姓名
+                [defaults3 setObject:[dic objectForKey:@"jjlxr_tx2sjh"] forKey:@"LianXiRenXinXi_XueShengPhoneNum2_Field"];//紧急联系人同学2手机号
+                [defaults3 setObject:[dic objectForKey:@"lxrdh"] forKey:@"LianXiRenXinXi_PhoneNum_Field"];//紧急联系人（父&母）电话号
+                [defaults3 setObject:[dic objectForKey:@"lxrgx"] forKey:@"fumu"];//紧急联系人选择（父&母）
+                [defaults3 setObject:[dic objectForKey:@"lxrxm"] forKey:@"LianXiRenXinXi_Name_Field"];//紧急联系人（父&母）姓名
+            }else{
+                //联系人页面
+#warning 联系人页面
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_DaoYuanName_Field"];//紧急联系人导员姓名
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_DaoYuanPhoneNum_Field"];//紧急联系人导员手机号
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengName_Field"];//紧急联系人同学1姓名
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengPhoneNum_Field"];//紧急联系人同学1手机号
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengName2_Field"];//紧急联系人同学2姓名
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_XueShengPhoneNum2_Field"];//紧急联系人同学2手机号
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_PhoneNum_Field"];//紧急联系人（父&母）电话号
+                [defaults3 setObject:@"" forKey:@"fumu"];//紧急联系人选择（父&母）
+                [defaults3 setObject:@"" forKey:@"LianXiRenXinXi_Name_Field"];//紧急联系人（父&母）姓名
+            }
+            if (![[dic objectForKey:@"zjz1"]isEqualToString:@"null"]&&![[dic objectForKey:@"zjz2"]isEqualToString:@"null"]&&![[dic objectForKey:@"zjz3"]isEqualToString:@"null"]&&![[dic objectForKey:@"zjz4"]isEqualToString:@"null"]) {
+                //照片资料页面
+#warning 照片资料页面
+                [defaults3 setObject:[dic objectForKey:@"zjz1"] forKey:@"zjz1"];//身份证
+                [defaults3 setObject:[dic objectForKey:@"zjz2"] forKey:@"zjz2"];//学生证
+                [defaults3 setObject:[dic objectForKey:@"zjz3"] forKey:@"zjz3"];//个人自拍
+                [defaults3 setObject:[dic objectForKey:@"zjz4"] forKey:@"zjz4"];//个人自拍
+            }
+            else{
+                //照片资料页面
+#warning 照片资料页面
+                [defaults3 setObject:@"" forKey:@"zjz1"];//身份证
+                [defaults3 setObject:@"" forKey:@"zjz2"];//学生证
+                [defaults3 setObject:@"" forKey:@"zjz3"];//个人自拍
+                [defaults3 setObject:@"" forKey:@"zjz4"];//身份证翻面
+            }
             
-        
-        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
-        HUD.mode = MBProgressHUDModeText;
-        
-        HUD.labelText = @"自动登录成功";
-        
-        HUD.margin = 10.f;
-        
-        HUD.removeFromSuperViewOnHide=YES;
-        
-        [HUD hide:YES afterDelay:1];
+            //        hyzh
+            //会员黑名单
+            [defaults3 setObject:[dic1 objectForKey:@"hmdbs"]forKey:@"HeiMingDan"];
+            //会员诚信值
+            [defaults3 setObject:[dic1 objectForKey:@"hycxz"]forKey:@"HuiYuanChengXinZhi"];
+            //会员积分
+            [defaults3 setObject:[dic1 objectForKey:@"hyjf"]forKey:@"HuiYuanJiFen"];
+            [defaults3 setObject:[dic1 objectForKey:@"id"]forKey:@"hyid"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"password"]forKey:@"password"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"shbs"]forKey:@"shbs"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"shsj"]forKey:@"shsj"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"sjhm"]forKey:@"sjhm"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"username"]forKey:@"username"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"xxwsbs"]forKey:@"xxwsbs"];
+            //        [defaults3 setObject:[dic1 objectForKey:@"zcsj"]forKey:@"zcsj"];
             
-    
+            
+            
+            
+            [self ShiFouFeYiDaiKuan];
+            
+            
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText = @"自动登录成功";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+            
+
+            
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+        
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -497,15 +514,32 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"Success----: %@", responseObject);
-        //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
-        
-        [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
-        [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        @try
+        {
+            
+            NSLog(@"Success----: %@", responseObject);
+            //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
+            
+            [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
+            [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
+            
+            
+
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
         
         HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

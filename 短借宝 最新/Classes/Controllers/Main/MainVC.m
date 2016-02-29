@@ -94,11 +94,28 @@
     //    NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+        @try
+        {
+            
+            [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
+            [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         //        NSLog(@"Success----: %@", responseObject);
         
-        [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
-        [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
+        
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -235,78 +252,95 @@
     //    NSLog(@"url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        //        NSLog(@"gg---%@",responseObject);
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[resultDic objectForKey:@"jdlv"] forKey:@"jdlv"];
-        
-        
-        
-        NSArray *resultDic1=[resultDic objectForKey:@"zxxx"];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:resultDic1 forKey:@"zxxx"];
-        
-        NSString *pathxx=[NSString stringWithFormat:@"%@/Documents/xinxi.plist",NSHomeDirectory()];
-        
-        [resultDic1 writeToFile:pathxx atomically:YES];
-        
-        
-        for (int i=0; i<resultDic1.count; i++) {
+        @try
+        {
             
-            NSDictionary *d= [resultDic1 objectAtIndex:i];
+            //        NSLog(@"gg---%@",responseObject);
             
-            self.zxbtA1=[d objectForKey:@"zxbt"];
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
             
-            self.zxfmA1=[d objectForKey:@"zxfm"];
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
             
-            self.zxnr1=[d objectForKey:@"zxnr"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:[resultDic objectForKey:@"jdlv"] forKey:@"jdlv"];
             
             
             
-            //        if (!_Topic) {
-            //实例化
-            self.Topic = [[JCTopic alloc]init];
-            self.Topic.frame = self.scorllOfView.bounds;
+            NSArray *resultDic1=[resultDic objectForKey:@"zxxx"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:resultDic1 forKey:@"zxxx"];
+            
+            NSString *pathxx=[NSString stringWithFormat:@"%@/Documents/xinxi.plist",NSHomeDirectory()];
+            
+            [resultDic1 writeToFile:pathxx atomically:YES];
             
             
+            for (int i=0; i<resultDic1.count; i++) {
+                
+                NSDictionary *d= [resultDic1 objectAtIndex:i];
+                
+                self.zxbtA1=[d objectForKey:@"zxbt"];
+                
+                self.zxfmA1=[d objectForKey:@"zxfm"];
+                
+                self.zxnr1=[d objectForKey:@"zxnr"];
+                
+                
+                
+                //        if (!_Topic) {
+                //实例化
+                self.Topic = [[JCTopic alloc]init];
+                self.Topic.frame = self.scorllOfView.bounds;
+                
+                
+                
+                //代理
+                self.Topic.JCdelegate = self;
+                //创建数据
+                //                NSMutableArray * tempArray = [NSMutableArray array];
+                
+                //网络图片加载失败
+                
+                UIImage * PlaceholderImage = [UIImage imageNamed:@"photo_edit_photos_btn_normal.png"];
+                
+                
+                //网络图片
+                //***********************//
+                //key pic = 地址 NSString
+                //key title = 显示的标题 NSString
+                //key isLoc = 是否本地图片 Bool
+                //key placeholderImage = 网络图片加载失败时显示的图片 UIImage
+                //***********************//
+                
+                NSString *urlImage1=[NSString stringWithFormat:@"%@%@",networkAddress,zxfmA1];
+                
+                [self.tempArray addObject:[NSDictionary dictionaryWithObjects:@[urlImage1,zxbtA1,@NO,PlaceholderImage,[d objectForKey:@"zxnr"]] forKeys:@[@"pic",@"title",@"isLoc",@"placeholderImage",@"Uiwed"]]];
+                
+            }
             
-            //代理
-            self.Topic.JCdelegate = self;
-            //创建数据
-            //                NSMutableArray * tempArray = [NSMutableArray array];
+            self.Topic.pics = self.tempArray;
             
-            //网络图片加载失败
+            // NSLog(@"top---%@",self.tempArray);
             
-            UIImage * PlaceholderImage = [UIImage imageNamed:@"photo_edit_photos_btn_normal.png"];
-            
-            
-            //网络图片
-            //***********************//
-            //key pic = 地址 NSString
-            //key title = 显示的标题 NSString
-            //key isLoc = 是否本地图片 Bool
-            //key placeholderImage = 网络图片加载失败时显示的图片 UIImage
-            //***********************//
-            
-            NSString *urlImage1=[NSString stringWithFormat:@"%@%@",networkAddress,zxfmA1];
-            
-            [self.tempArray addObject:[NSDictionary dictionaryWithObjects:@[urlImage1,zxbtA1,@NO,PlaceholderImage,[d objectForKey:@"zxnr"]] forKeys:@[@"pic",@"title",@"isLoc",@"placeholderImage",@"Uiwed"]]];
+            [self.Topic upDate];
+            [self.scorllOfView addSubview:self.Topic];
             
         }
-        
-        self.Topic.pics = self.tempArray;
-        
-        // NSLog(@"top---%@",self.tempArray);
-        
-        [self.Topic upDate];
-        [self.scorllOfView addSubview:self.Topic];
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -249,42 +249,59 @@
     NSLog(@"－－－－url--%@",url1);
     
     [manager POST:url1 parameters:@{@"grxx_yhk":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"－－＝＝－－%@",responseObject);
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
-        NSLog(@"0.0  开户行名称－－－－%@",dic);
-        //        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-        
-        [defaults3 setObject:[dic objectForKey:@"skrxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];//收款人姓名
-        NSLog(@"%@",[defaults3 objectForKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"]);
-        [defaults3 setObject:[dic objectForKey:@"skyh"] forKey:@"bank"];//收款人银行
-        [defaults3 setObject:[dic objectForKey:@"skyhkh"] forKey:@"YinHangKaXinXi_YinHangKaHao_Field"];//收款人卡号
-        [defaults3 setObject:[NSString stringWithFormat:@"%@",_YinHangKaXinXi_KaiHuMingCheng_Field.text] forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];//开户名称
-        
-        
-        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
-        HUD.mode = MBProgressHUDModeText;
-        
-        HUD.labelText = @"上传成功";
-        
-        HUD.margin = 10.f;
-        
-        HUD.removeFromSuperViewOnHide=YES;
-        
-        
-        //[self.delegate hid1];
-        
-        
-        
-        [self performSelector:@selector(tuitui) withObject:nil afterDelay:1];
+        @try
+        {
+            NSLog(@"－－＝＝－－%@",responseObject);
+            
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            
+            NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
+            NSLog(@"0.0  开户行名称－－－－%@",dic);
+            //        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+            
+            [defaults3 setObject:[dic objectForKey:@"skrxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];//收款人姓名
+            NSLog(@"%@",[defaults3 objectForKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"]);
+            [defaults3 setObject:[dic objectForKey:@"skyh"] forKey:@"bank"];//收款人银行
+            [defaults3 setObject:[dic objectForKey:@"skyhkh"] forKey:@"YinHangKaXinXi_YinHangKaHao_Field"];//收款人卡号
+            [defaults3 setObject:[NSString stringWithFormat:@"%@",_YinHangKaXinXi_KaiHuMingCheng_Field.text] forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];//开户名称
+            
+            
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText = @"上传成功";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            
+            //[self.delegate hid1];
+            
+            
+            
+            [self performSelector:@selector(tuitui) withObject:nil afterDelay:1];
+
+            
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

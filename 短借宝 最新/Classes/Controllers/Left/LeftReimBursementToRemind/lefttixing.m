@@ -125,22 +125,39 @@
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [hud hide:YES];
-        
-        NSLog(@"Success----: %@", responseObject);
-        //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
-        
-        // if ([[responseObject[0] objectForKey:@"flag"] intValue]==0)
-        // {
-        [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
-        [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
-        
-        if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"] intValue]==1) {
+        @try
+        {
             
-            hksj=[NSString stringWithFormat:@"%@",[mydic objectForKey:@"yhksj"]];
-            flag=1;
+            NSLog(@"Success----: %@", responseObject);
+            //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
+            
+            // if ([[responseObject[0] objectForKey:@"flag"] intValue]==0)
+            // {
+            [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
+            [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
+            
+            if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"] intValue]==1) {
+                
+                hksj=[NSString stringWithFormat:@"%@",[mydic objectForKey:@"yhksj"]];
+                flag=1;
+            }
+            
+
         }
-        
-        // }
+        @catch (NSException * e) {
+            hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            hud.mode = MBProgressHUDModeText;
+            
+            hud.labelText=@"请检查你的网络连接!";
+            
+            hud.margin = 10.f;
+            
+            hud.removeFromSuperViewOnHide=YES;
+            
+            [hud hide:YES afterDelay:1];
+        }
+                // }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
@@ -240,28 +257,45 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@",operation.responseObject);
-        
-        [hud hide:YES];
-        
-        if ([responseObject count]>0) {
+        @try
+        {
+            NSLog(@"%@",operation.responseObject);
             
-            mydic=responseObject[0];
+            [hud hide:YES];
             
-            hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            if ([responseObject count]>0) {
+                
+                mydic=responseObject[0];
+                
+                hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                
+                hud.mode=MBProgressHUDModeIndeterminate;
+                
+                hud.labelText=@"正在加载...";
+                
+                [hud setRemoveFromSuperViewOnHide:YES];
+                
+                
+                [self ShiFouFeYiDaiKuan];
+            }
             
-            hud.mode=MBProgressHUDModeIndeterminate;
-            
-            hud.labelText=@"正在加载...";
-            
-            [hud setRemoveFromSuperViewOnHide:YES];
 
             
-            [self ShiFouFeYiDaiKuan];
+        }
+        @catch (NSException * e) {
+            hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            hud.mode = MBProgressHUDModeText;
+            
+            hud.labelText=@"请检查你的网络连接!";
+            
+            hud.margin = 10.f;
+            
+            hud.removeFromSuperViewOnHide=YES;
+            
+            [hud hide:YES afterDelay:1];
         }
         
-               
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         [hud hide:YES];

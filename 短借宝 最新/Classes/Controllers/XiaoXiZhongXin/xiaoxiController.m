@@ -136,47 +136,65 @@
     [HUD setRemoveFromSuperViewOnHide:YES];
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"\n\n\n%@\n\n\n",responseObject);
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        [HUD hide:YES];
-        
-        
-        if (resultDic.count==0) {
+        @try
+        {
+            NSLog(@"\n\n\n%@\n\n\n",responseObject);
+            
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            
+            [HUD hide:YES];
+            
+            
+            if (resultDic.count==0) {
+                
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = @"已经是最后一页";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+                
+                NSLog(@"已经是最后一页");
+                
+            }else{
+                
+                [self.array addObjectsFromArray:resultDic];
+                
+                NSLog(@"rrrr%lu",(unsigned long)self.array.count);
+                
+                [self.tableView reloadData];
+                
+                
+            }
+            
+            
             
 
+            
+        }
+        @catch (NSException * e) {
             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
             HUD.mode = MBProgressHUDModeText;
             
-            HUD.labelText = @"已经是最后一页";
+            HUD.labelText=@"请检查你的网络连接!";
             
             HUD.margin = 10.f;
             
             HUD.removeFromSuperViewOnHide=YES;
             
             [HUD hide:YES afterDelay:1];
-            
-            NSLog(@"已经是最后一页");
-            
-        }else{
-            
-            [self.array addObjectsFromArray:resultDic];
-            
-            NSLog(@"rrrr%lu",(unsigned long)self.array.count);
-            
-            [self.tableView reloadData];
-            
-            
         }
-        
-        
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

@@ -197,74 +197,92 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"hui---%@",responseObject);
-        
-        [HUD hide:YES];
-        
-        [HUD removeFromSuperview];
-        
-        HUD=nil;
-        
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        if ([[resultDic objectForKey:@"flag"] intValue]==1) {
+        @try
+        {
+            NSLog(@"hui---%@",responseObject);
             
-            int yuanfen=[[[NSUserDefaults standardUserDefaults] objectForKey:@"HuiYuanJiFen"] intValue];
-            int fufen=[[_jieshu objectForKey:@"dhjfe"] intValue];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",yuanfen-fufen] forKey:@"HuiYuanJiFen"];
+            [HUD hide:YES];
+            
+            [HUD removeFromSuperview];
+            
+            HUD=nil;
             
             
-            if (HUD) {
-                [HUD removeFromSuperview];
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            
+            if ([[resultDic objectForKey:@"flag"] intValue]==1) {
+                
+                int yuanfen=[[[NSUserDefaults standardUserDefaults] objectForKey:@"HuiYuanJiFen"] intValue];
+                int fufen=[[_jieshu objectForKey:@"dhjfe"] intValue];
+                [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",yuanfen-fufen] forKey:@"HuiYuanJiFen"];
+                
+                
+                if (HUD) {
+                    [HUD removeFromSuperview];
+                }
+                
+                
+                HUD=[[MBProgressHUD alloc] initWithView:self.view];
+                
+                [self.view addSubview:HUD];
+                
+                
+                HUD.mode =MBProgressHUDModeText;
+                
+                // HUD.labelText =@"积分礼品预订成功！";
+                HUD.labelText =[resultDic objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
+                [HUD show:YES];
+                
+                [self performSelector:@selector(wan) withObject:nil afterDelay:2];
+                
+            }
+            else{
+                
+                if (HUD) {
+                    [HUD removeFromSuperview];
+                }
+                
+                
+                HUD=[[MBProgressHUD alloc] initWithView:self.view];
+                
+                [self.view addSubview:HUD];
+                
+                
+                HUD.mode =MBProgressHUDModeText;
+                
+                HUD.labelText =[resultDic objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
+                [HUD hide:YES afterDelay:2];
+                
+                
+                
             }
             
-            
-            HUD=[[MBProgressHUD alloc] initWithView:self.view];
-            
-            [self.view addSubview:HUD];
-            
-            
-            HUD.mode =MBProgressHUDModeText;
-            
-           // HUD.labelText =@"积分礼品预订成功！";
-            HUD.labelText =[resultDic objectForKey:@"massages"];
 
-            HUD.margin = 10.f;
-            
-            [HUD show:YES];
-            
-            [self performSelector:@selector(wan) withObject:nil afterDelay:2];
             
         }
-        else{
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
-            if (HUD) {
-                [HUD removeFromSuperview];
-            }
-          
+            HUD.mode = MBProgressHUDModeText;
             
-            HUD=[[MBProgressHUD alloc] initWithView:self.view];
-            
-            [self.view addSubview:HUD];
-            
-            
-            HUD.mode =MBProgressHUDModeText;
-            
-            HUD.labelText =[resultDic objectForKey:@"massages"];
+            HUD.labelText=@"请检查你的网络连接!";
             
             HUD.margin = 10.f;
             
-            [HUD hide:YES afterDelay:2];
-
+            HUD.removeFromSuperViewOnHide=YES;
             
-            
+            [HUD hide:YES afterDelay:1];
         }
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

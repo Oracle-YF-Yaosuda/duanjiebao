@@ -17,7 +17,7 @@
 #import "MBProgressHUD.h"
 
 @interface MakeOutInformationTVC ()<hideDelegate,hideDelegate1,hideDelegate2,hideDelegate3>{
-    
+    MBProgressHUD*HUD;
 }
 
 @end
@@ -59,12 +59,29 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"Success----: %@", [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"massages"] ]);
-  
+        @try
+        {
+            
+            NSLog(@"Success----: %@", [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"massages"] ]);
+            
             [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
             [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
-     
+            
+
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);

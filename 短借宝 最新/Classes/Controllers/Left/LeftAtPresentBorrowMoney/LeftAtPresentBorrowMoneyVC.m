@@ -12,14 +12,14 @@
 #import "MJRefreshHeaderView.h"
 #import "AFNetworking.h"
 #import "JSONKit.h"
-
+#import "MBProgressHUD.h"
 #import "Header.h"
 
 @interface LeftAtPresentBorrowMoneyVC (){
     
     float width,heig;
     
-    
+    MBProgressHUD*HUD;
     UIImageView *img1;
     UIImageView *img2;
     UIImageView *img3;
@@ -301,190 +301,207 @@
    
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"\n\n\n------%@\n\n",responseObject);
+        @try
+        {
+            NSLog(@"\n\n\n------%@\n\n",responseObject);
+            
+            if ([operation.responseObject count]==0) {
                 
-        if ([operation.responseObject count]==0) {
-            
-        }else{
-        
-        if ([responseObject[0] objectForKey:@"cwfkbs"]==NULL) {
-            
-            
-        }else{
-        
-        [defaults3 setObject:[responseObject[0] objectForKey:@"id"] forKey:@"DaiKuanXinXiID"];
-            
-//            [defaults3 setObject:[responseObject[0] objectForKey:@"DaiKuanShiFouKeYi"] forKey:@"Z"];
-         
-            
-            [defaults3 setObject:[responseObject[0] objectForKey:@"cwfkbs"] forKey:@"ZhuangTai"];
-            
-            [defaults3 setObject:[responseObject[0] objectForKey:@"hksq"] forKey:@"ShenQing"];
-            
-            [defaults3 setObject:[responseObject[0] objectForKey:@"jkqx"] forKey:@"Tianshu"];
-            //借款金额
-        NSString *jkje=[NSString stringWithFormat:@"%@元",[responseObject[0] objectForKey:@"jkje"]];
-        self.JieKuanJinE.text=jkje;
-            //借款时间
-            NSString *str=[responseObject[0] objectForKey:@"sqsj"];//时间戳
-            
-            NSTimeInterval time=[str longLongValue]/1000;//因为时差问题要加8小时 == 28800 sec
-            NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
-            
-            //实例化一个NSDateFormatter对象
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            //设定时间格式,这里可以设置成自己需要的格式
-            [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
-            NSString *currentDateStr = [dateFormatter stringFromDate: detaildate];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            
-            NSString*yiqian=[dateFormatter stringFromDate:detaildate];
-            NSString *cha=[self bijiaoshijian:yiqian];
-           
-            self.JieKuanShiJian.text=currentDateStr;
-        NSString *jkts=[NSString stringWithFormat:@"%@天",[responseObject[0] objectForKey:@"jkqx"]];
-            if([cha intValue]-[jkts intValue]>0){
-                //还款天数
-                _HuanKuanTianShu.text=[NSString stringWithFormat:@"%@",cha];
-                _HuanKuanTianShu.textColor=[UIColor redColor];
             }else{
-                 //还款天数
-        
-        self.HuanKuanTianShu.text=jkts;
+                
+                if ([responseObject[0] objectForKey:@"cwfkbs"]==NULL) {
+                    
+                    
+                }else{
+                    
+                    [defaults3 setObject:[responseObject[0] objectForKey:@"id"] forKey:@"DaiKuanXinXiID"];
+                    
+                    //            [defaults3 setObject:[responseObject[0] objectForKey:@"DaiKuanShiFouKeYi"] forKey:@"Z"];
+                    
+                    
+                    [defaults3 setObject:[responseObject[0] objectForKey:@"cwfkbs"] forKey:@"ZhuangTai"];
+                    
+                    [defaults3 setObject:[responseObject[0] objectForKey:@"hksq"] forKey:@"ShenQing"];
+                    
+                    [defaults3 setObject:[responseObject[0] objectForKey:@"jkqx"] forKey:@"Tianshu"];
+                    //借款金额
+                    NSString *jkje=[NSString stringWithFormat:@"%@元",[responseObject[0] objectForKey:@"jkje"]];
+                    self.JieKuanJinE.text=jkje;
+                    //借款时间
+                    NSString *str=[responseObject[0] objectForKey:@"sqsj"];//时间戳
+                    
+                    NSTimeInterval time=[str longLongValue]/1000;//因为时差问题要加8小时 == 28800 sec
+                    NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
+                    
+                    //实例化一个NSDateFormatter对象
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    //设定时间格式,这里可以设置成自己需要的格式
+                    [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
+                    NSString *currentDateStr = [dateFormatter stringFromDate: detaildate];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    
+                    NSString*yiqian=[dateFormatter stringFromDate:detaildate];
+                    NSString *cha=[self bijiaoshijian:yiqian];
+                    
+                    self.JieKuanShiJian.text=currentDateStr;
+                    NSString *jkts=[NSString stringWithFormat:@"%@天",[responseObject[0] objectForKey:@"jkqx"]];
+                    if([cha intValue]-[jkts intValue]>0){
+                        //还款天数
+                        _HuanKuanTianShu.text=[NSString stringWithFormat:@"%@",cha];
+                        _HuanKuanTianShu.textColor=[UIColor redColor];
+                    }else{
+                        //还款天数
+                        
+                        self.HuanKuanTianShu.text=jkts;
+                    }
+                    //借款费用
+                    float jblv=[[responseObject[0] objectForKey:@"jblv"] floatValue];
+                    
+                    float znj=[[responseObject[0] objectForKey:@"znj"] floatValue];
+                    
+                    float wylv1=[[responseObject[0] objectForKey:@"wylv1"] floatValue];
+                    float wylv2=[[responseObject[0] objectForKey:@"wylv2"] floatValue];
+                    if (0<[cha intValue]-[jkts intValue]&&[cha intValue]-[jkts intValue]<15) {
+                        // 超时15天以内手续费=滞纳金+正常手续费（借款金额*基本利率*借款期限）+超时手续费（借款金额*15天之内违约利率*超时天数（实际借款天数 －借款期限）｜｜（实际还款时间-应还款天数））
+                        NSString*jkfy=  [NSString stringWithFormat:@"%.2f元",znj+[jkje intValue]*jblv/1000*[jkts intValue]+[jkje intValue]*([cha intValue]-[jkts intValue])*wylv1*0.001];
+                        NSLog(@"%d",[cha intValue]-[jkts intValue]);
+                        _JieKuanFeiYong.text=jkfy;
+                        
+                        _HuanKuanJinE.text=[NSString stringWithFormat:@"%.2f",[jkje floatValue]+[jkfy floatValue]-[jkje intValue]*jblv/1000*[jkts intValue]];
+                        _HuanKuanJinE.textColor=[UIColor redColor];
+                        _JieKuanFeiYong.textColor=[UIColor redColor];
+                    }else if ([cha intValue]-[jkts intValue]>15){
+                        NSString*jkfy=  [NSString stringWithFormat:@"%.2f元",znj+[jkje intValue]*jblv/1000*[jkts intValue]+[jkje intValue]*15*wylv1*0.001+[jkje floatValue]*wylv2*0.001*([cha intValue]-[jkts intValue]-15)];
+                        NSLog(@"%d",[cha intValue]-[jkts intValue]);
+                        _JieKuanFeiYong.text=jkfy;
+                        _HuanKuanJinE.text=[NSString stringWithFormat:@"%.2f元",[jkje floatValue]+[jkfy floatValue]-[jkje floatValue]*jblv/1000*[jkts floatValue]];
+                        _HuanKuanJinE.textColor=[UIColor redColor];
+                        _JieKuanFeiYong.textColor=[UIColor redColor];
+                    }else{
+                        NSString *jkfy=[NSString stringWithFormat:@"%.2f元",[jkje intValue]*jblv/1000*[jkts intValue]];
+                        self.JieKuanFeiYong.text=jkfy;
+                        self.HuanKuanJinE.text=jkje;
+                    }
+                    
+                    
+                    
+                    
+                    
+                    //到账金额
+                    //        NSString *dzje=[NSString stringWithFormat:@"%@元",[responseObject[0] objectForKey:@"jkje"]];
+                    self.DaoZhangJinE.text=[NSString stringWithFormat:@"%.2f元",[[responseObject[0] objectForKey:@"jkje"] floatValue]-[[responseObject[0] objectForKey:@"sxf"] floatValue]];
+                    
+                    //还款时间
+                    
+                    //        NSString *hksj=[NSString stringWithFormat:@"%@天",[responseObject[0] objectForKey:@"hksq"]];
+                    
+                    //  NSString *str1=[NSString stringWithFormat:@"%ld",(long)([[responseObject[0] objectForKey:@"yhksj"] integerValue]+[[responseObject[0] objectForKey:@"jkqx"] integerValue]*86400000)];//时间戳
+                    
+                    NSString *str1=[responseObject[0] objectForKey:@"yhksj"];//时间戳
+                    
+                    
+                    
+                    // 保存借到歀时间
+                    
+                    [[NSUserDefaults standardUserDefaults]setObject:str forKey:@"JKSJ" ];
+                    
+                    [[NSUserDefaults standardUserDefaults]setObject:str1 forKey:@"DKSJ" ];
+                    
+                    //
+                    
+                    NSTimeInterval time1=[str1 longLongValue]/1000;//因为时差问题要加8小时 == 28800 sec
+                    NSDate *detaildate1=[NSDate dateWithTimeIntervalSince1970:time+[jkts intValue]*24*60*60];
+                    
+                    //实例化一个NSDateFormatter对象
+                    NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
+                    //设定时间格式,这里可以设置成自己需要的格式
+                    [dateFormatter1 setDateFormat:@"yyyy年MM月dd日"];
+                    
+                    NSString *currentDateStr1 = [dateFormatter1 stringFromDate: detaildate1];
+                    
+                    self.HuanKuanShiJian.text=currentDateStr1;
+                    
+                    NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+                    
+                    
+                    if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"]  intValue]==1) {
+                        
+                        shux2.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                        img2.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
+                        
+                        shux3.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                    }
+                    
+                    
+                    if ([[defaults3 objectForKey:@"ZhuangTai"] intValue]==1) {
+                        
+                        shux4.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                        img3.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
+                        
+                        shux5.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        shux2.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                        img2.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
+                        
+                        shux3.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                    }
+                    else{
+                        
+                        //                _JieKuanJinE.text=@"元";
+                        //                _HuanKuanTianShu.text=@"天";
+                        //                _JieKuanFeiYong.text=@"元";
+                        //                _HuanKuanJinE.text=@"元";
+                        //                _DaoZhangJinE.text=@"元";
+                        //                _JieKuanShiJian.text=@"";
+                        //                _HuanKuanShiJian.text=@"";
+                        
+                        
+                    }
+                    
+                    if ([[defaults3 objectForKey:@"ShenQing"] intValue]==1) {
+                        shux6.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                        img4.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
+                        
+                        shux7.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        shux4.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                        img3.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
+                        
+                        shux5.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        shux2.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                        
+                        img2.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
+                        
+                        shux3.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
+                    }
+                    
+                    
+                    //  [self ShiFouFeYiDaiKuan];
+                    
+                    
+                }
+                
             }
-            //借款费用
-            float jblv=[[responseObject[0] objectForKey:@"jblv"] floatValue];
-        
-            float znj=[[responseObject[0] objectForKey:@"znj"] floatValue];
-            
-            float wylv1=[[responseObject[0] objectForKey:@"wylv1"] floatValue];
-            float wylv2=[[responseObject[0] objectForKey:@"wylv2"] floatValue];
-            if (0<[cha intValue]-[jkts intValue]&&[cha intValue]-[jkts intValue]<15) {
-                // 超时15天以内手续费=滞纳金+正常手续费（借款金额*基本利率*借款期限）+超时手续费（借款金额*15天之内违约利率*超时天数（实际借款天数 －借款期限）｜｜（实际还款时间-应还款天数））
-                NSString*jkfy=  [NSString stringWithFormat:@"%.2f元",znj+[jkje intValue]*jblv/1000*[jkts intValue]+[jkje intValue]*([cha intValue]-[jkts intValue])*wylv1*0.001];
-                NSLog(@"%d",[cha intValue]-[jkts intValue]);
-                _JieKuanFeiYong.text=jkfy;
-                
-                _HuanKuanJinE.text=[NSString stringWithFormat:@"%.2f",[jkje floatValue]+[jkfy floatValue]-[jkje intValue]*jblv/1000*[jkts intValue]];
-                _HuanKuanJinE.textColor=[UIColor redColor];
-                _JieKuanFeiYong.textColor=[UIColor redColor];
-            }else if ([cha intValue]-[jkts intValue]>15){
-                NSString*jkfy=  [NSString stringWithFormat:@"%.2f元",znj+[jkje intValue]*jblv/1000*[jkts intValue]+[jkje intValue]*15*wylv1*0.001+[jkje floatValue]*wylv2*0.001*([cha intValue]-[jkts intValue]-15)];
-                 NSLog(@"%d",[cha intValue]-[jkts intValue]);
-                _JieKuanFeiYong.text=jkfy;
-                _HuanKuanJinE.text=[NSString stringWithFormat:@"%.2f元",[jkje floatValue]+[jkfy floatValue]-[jkje floatValue]*jblv/1000*[jkts floatValue]];
-                _HuanKuanJinE.textColor=[UIColor redColor];
-                _JieKuanFeiYong.textColor=[UIColor redColor];
-            }else{
-                NSString *jkfy=[NSString stringWithFormat:@"%.2f元",[jkje intValue]*jblv/1000*[jkts intValue]];
-                self.JieKuanFeiYong.text=jkfy;
-                self.HuanKuanJinE.text=jkje;
-            }
-       
-      
-         
-            
-            
-        //到账金额
-//        NSString *dzje=[NSString stringWithFormat:@"%@元",[responseObject[0] objectForKey:@"jkje"]];
-            self.DaoZhangJinE.text=[NSString stringWithFormat:@"%.2f元",[[responseObject[0] objectForKey:@"jkje"] floatValue]-[[responseObject[0] objectForKey:@"sxf"] floatValue]];
-        
-                //还款时间
-            
-//        NSString *hksj=[NSString stringWithFormat:@"%@天",[responseObject[0] objectForKey:@"hksq"]];
-            
-          //  NSString *str1=[NSString stringWithFormat:@"%ld",(long)([[responseObject[0] objectForKey:@"yhksj"] integerValue]+[[responseObject[0] objectForKey:@"jkqx"] integerValue]*86400000)];//时间戳
-            
- NSString *str1=[responseObject[0] objectForKey:@"yhksj"];//时间戳
-            
-            
-            
-    // 保存借到歀时间
-            
-            [[NSUserDefaults standardUserDefaults]setObject:str forKey:@"JKSJ" ];
-            
-            [[NSUserDefaults standardUserDefaults]setObject:str1 forKey:@"DKSJ" ];
-            
-    //
-            
-            NSTimeInterval time1=[str1 longLongValue]/1000;//因为时差问题要加8小时 == 28800 sec
-            NSDate *detaildate1=[NSDate dateWithTimeIntervalSince1970:time+[jkts intValue]*24*60*60];
-            
-            //实例化一个NSDateFormatter对象
-            NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
-            //设定时间格式,这里可以设置成自己需要的格式
-            [dateFormatter1 setDateFormat:@"yyyy年MM月dd日"];
-            
-            NSString *currentDateStr1 = [dateFormatter1 stringFromDate: detaildate1];
-           
-                self.HuanKuanShiJian.text=currentDateStr1;
-            
-            NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-            
-            
-            if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"]  intValue]==1) {
-                
-                shux2.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-                img2.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
-                
-                shux3.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-            }
-            
-            
-            if ([[defaults3 objectForKey:@"ZhuangTai"] intValue]==1) {
-                
-                shux4.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-                img3.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
-                
-                shux5.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                shux2.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-                img2.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
-                
-                shux3.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-            }
-            else{
-                
-//                _JieKuanJinE.text=@"元";
-//                _HuanKuanTianShu.text=@"天";
-//                _JieKuanFeiYong.text=@"元";
-//                _HuanKuanJinE.text=@"元";
-//                _DaoZhangJinE.text=@"元";
-//                _JieKuanShiJian.text=@"";
-//                _HuanKuanShiJian.text=@"";
-                
-                
-            }
-            
-            if ([[defaults3 objectForKey:@"ShenQing"] intValue]==1) {
-               shux6.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-                img4.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
-                
-                shux7.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                shux4.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-                img3.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
-                
-                shux5.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                shux2.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-                
-                img2.image=[UIImage imageNamed:@"dangqianjiekuan_07"];
-                
-                shux3.backgroundColor=[UIColor colorWithRed:253.0/255.0 green:95.0/255.0 blue:100.0/255.0 alpha:1.0];
-            }
-            
-            
-          //  [self ShiFouFeYiDaiKuan];
-            
 
-    }
-        
+            
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -540,29 +557,46 @@
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        
-    
-        
-       // if ([[responseObject[0] objectForKey:@"flag"] intValue]==0)
-       // {
+        @try
+        {
+            
+            // if ([[responseObject[0] objectForKey:@"flag"] intValue]==0)
+            // {
             [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
             [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
-        
-        if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"] intValue]==0) {
             
-                            _JieKuanJinE.text=@"元";
-                            _HuanKuanTianShu.text=@"天";
-                            _JieKuanFeiYong.text=@"元";
-                            _HuanKuanJinE.text=@"元";
-                            _DaoZhangJinE.text=@"元";
-                            _JieKuanShiJian.text=@"";
-                            _HuanKuanShiJian.text=@"";
+            if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"] intValue]==0) {
+                
+                _JieKuanJinE.text=@"元";
+                _HuanKuanTianShu.text=@"天";
+                _JieKuanFeiYong.text=@"元";
+                _HuanKuanJinE.text=@"元";
+                _DaoZhangJinE.text=@"元";
+                _JieKuanShiJian.text=@"";
+                _HuanKuanShiJian.text=@"";
+                
+                
+            }
+            [self DangQianDaiKuan];
+            
+            // }
 
-            
         }
-        [self DangQianDaiKuan];
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+    
         
-       // }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       

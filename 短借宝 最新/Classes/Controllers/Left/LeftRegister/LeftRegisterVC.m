@@ -356,103 +356,104 @@
     //    NSLog(@"url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"aaaaaa%@",responseObject);
-        
-        [HUD hide:YES];
-        
-        [HUD removeFromSuperview];
-        
-        HUD=nil;
-
-        
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        //        NSLog(@"%@",resultDic);
-        
-        //        NSLog(@"%@",[resultDic objectForKey:@"flag"]);
-        
-        
-        NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
-        
-        NSDictionary *dic1=[resultDic objectForKey:@"hyzh"];
-//       if(![[dic objectForKey:@"zhid"]isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"zhid"]]){
-//           for (int x=0; x<4; x++) {
-//               NSFileManager *defaultManager;
-//           defaultManager = [NSFileManager defaultManager];
-//           NSString*path=[NSString stringWithFormat:@"%@/Documents/image%d",NSHomeDirectory(),x+1];
-//           [defaultManager removeItemAtPath:path error:NULL];
-//           }
-//           for (int x=0; x<4; x++) {
-//               NSFileManager *defaultManager;
-//               defaultManager = [NSFileManager defaultManager];
-//               NSString*path=[NSString stringWithFormat:@"%@/Documents/image%d.jpg",NSHomeDirectory(),x+1];
-//               [defaultManager removeItemAtPath:path error:NULL];
-//           }
-           
-//        }
-        //        NSLog(@"%@",dic1);
-        
-        if ( [[resultDic objectForKey:@"flag"] integerValue]==1) {
-             
-            // 保存key
+        @try
+        {
+            NSLog(@"aaaaaa%@",responseObject);
+            
+            [HUD hide:YES];
+            
+            [HUD removeFromSuperview];
+            
+            HUD=nil;
             
             
-            [APService setAlias:name callbackSelector:nil object:nil];
+            
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            //        NSLog(@"%@",resultDic);
+            
+            //        NSLog(@"%@",[resultDic objectForKey:@"flag"]);
             
             
-            NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+            NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
             
+            NSDictionary *dic1=[resultDic objectForKey:@"hyzh"];
+            //       if(![[dic objectForKey:@"zhid"]isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"zhid"]]){
+            //           for (int x=0; x<4; x++) {
+            //               NSFileManager *defaultManager;
+            //           defaultManager = [NSFileManager defaultManager];
+            //           NSString*path=[NSString stringWithFormat:@"%@/Documents/image%d",NSHomeDirectory(),x+1];
+            //           [defaultManager removeItemAtPath:path error:NULL];
+            //           }
+            //           for (int x=0; x<4; x++) {
+            //               NSFileManager *defaultManager;
+            //               defaultManager = [NSFileManager defaultManager];
+            //               NSString*path=[NSString stringWithFormat:@"%@/Documents/image%d.jpg",NSHomeDirectory(),x+1];
+            //               [defaultManager removeItemAtPath:path error:NULL];
+            //           }
             
-            [defaults3 setObject:[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"key"]] forKey:@"kkkey"];
+            //        }
+            //        NSLog(@"%@",dic1);
             
-            //flag   判断0或1   登录
-            [defaults3 setObject:[resultDic objectForKey:@"flag"] forKey:@"true"];
-            //个人信息页面
+            if ( [[resultDic objectForKey:@"flag"] integerValue]==1) {
+                
+                // 保存key
+                
+                
+                [APService setAlias:name callbackSelector:nil object:nil];
+                
+                
+                NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+                
+                
+                [defaults3 setObject:[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"key"]] forKey:@"kkkey"];
+                
+                //flag   判断0或1   登录
+                [defaults3 setObject:[resultDic objectForKey:@"flag"] forKey:@"true"];
+                //个人信息页面
 #warning 个人信息页面
-            //            所在大学
-            [defaults3 setObject:[[responseObject objectForKey:@"hyxx"] objectForKey:@"sfzh"] forKey:@"GeRenXinXi_ShenFenZhenHao_Field"];//身份证号
-            if (![[defaults3 objectForKey:@"GeRenXinXi_ShenFenZhenHao_Field"]isEqualToString:@"null"]) {
-                //出生日期
-                NSString *a = [defaults3 objectForKey:@"GeRenXinXi_ShenFenZhenHao_Field"];
-                int b = [[a substringWithRange:NSMakeRange(16, 1)] intValue] ;
-                NSLog(@"%d",b);
-                NSString *cc = [a substringWithRange:NSMakeRange(6, 8)];
-                NSMutableString *string1 = [[NSMutableString alloc]initWithString:cc];
-                [string1 insertString:@"-" atIndex:4];
-                [string1 insertString:@"-" atIndex:7];
-                [defaults3 setObject:string1 forKey:@"GeRenXinXi_ShengRi_Field"];
-                        if ((b%2)==0) {
+                //            所在大学
+                [defaults3 setObject:[[responseObject objectForKey:@"hyxx"] objectForKey:@"sfzh"] forKey:@"GeRenXinXi_ShenFenZhenHao_Field"];//身份证号
+                if (![[defaults3 objectForKey:@"GeRenXinXi_ShenFenZhenHao_Field"]isEqualToString:@"null"]) {
+                    //出生日期
+                    NSString *a = [defaults3 objectForKey:@"GeRenXinXi_ShenFenZhenHao_Field"];
+                    int b = [[a substringWithRange:NSMakeRange(16, 1)] intValue] ;
+                    NSLog(@"%d",b);
+                    NSString *cc = [a substringWithRange:NSMakeRange(6, 8)];
+                    NSMutableString *string1 = [[NSMutableString alloc]initWithString:cc];
+                    [string1 insertString:@"-" atIndex:4];
+                    [string1 insertString:@"-" atIndex:7];
+                    [defaults3 setObject:string1 forKey:@"GeRenXinXi_ShengRi_Field"];
+                    if ((b%2)==0) {
+                        
+                        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+                        [defaults3 setObject:@"女" forKey:@"xingbie"];
+                        
+                    }else{
+                        
+                        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+                        [defaults3 setObject:@"男" forKey:@"xingbie"];
+                        
+                    }
+                    
+                }
+                else{
+                    //                [defaults3 setObject:[dic objectForKey:@""] forKey:@""];
+                    //                [defaults3 setObject:[dic objectForKey:@""] forKey:@""];
+                }
                 
-                                NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-                                [defaults3 setObject:@"女" forKey:@"xingbie"];
-                
-                            }else{
-                
-                                NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-                                [defaults3 setObject:@"男" forKey:@"xingbie"];
-                
-                            }
-
-            }
-            else{
-//                [defaults3 setObject:[dic objectForKey:@""] forKey:@""];
-//                [defaults3 setObject:[dic objectForKey:@""] forKey:@""];
-            }
-           
-            [defaults3 setObject:[dic objectForKey:@"id"] forKey:@"id"];//会员id
-            [defaults3 setObject:[dic objectForKey:@"zhid"] forKey:@"zhid"];//会员账号id
-//            if ([[defaults3 objectForKey:@"memeda"]isEqualToString:[defaults3 objectForKey:@"zhid"]]) {
-//          
-//        
-//            }
-//            
-//            else{
-//                [defaults3 setObject:[defaults3 objectForKey:@"zhid"] forKey:@"memeda"];
+                [defaults3 setObject:[dic objectForKey:@"id"] forKey:@"id"];//会员id
+                [defaults3 setObject:[dic objectForKey:@"zhid"] forKey:@"zhid"];//会员账号id
+                //            if ([[defaults3 objectForKey:@"memeda"]isEqualToString:[defaults3 objectForKey:@"zhid"]]) {
+                //
+                //
+                //            }
+                //
+                //            else{
+                //                [defaults3 setObject:[defaults3 objectForKey:@"zhid"] forKey:@"memeda"];
                 NSLog(@"%@-------%@",[defaults3 objectForKey:@"zhid"],[defaults3 objectForKey:@"memeda"]);
                 if (![[dic objectForKey:@"hyxm"]isEqualToString: @"null"]) {
                     [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];//收款姓名
@@ -467,7 +468,7 @@
                     else{
                         [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];
                     }
-
+                    
                     //[defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];//会员学号
                     [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"GeRenXinXi_Name_Field"];
                     
@@ -510,7 +511,7 @@
                         [defaults3 setObject:@" "  forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
                     }
                     else{
-                    [defaults3 setObject:[dic objectForKey:@"khhmc"] forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
+                        [defaults3 setObject:[dic objectForKey:@"khhmc"] forKey:@"YinHangKaXinXi_KaiHuMingCheng_Field"];
                     }
                 }else {
                     //银行卡信息页面
@@ -579,59 +580,75 @@
                 [defaults3 setObject:@"0" forKey:@"shenfenfflag"];
                 [defaults3 setObject:@"0" forKey:@"benrenzflag"];
                 [defaults3 setObject:@"0" forKey:@"xueshengzflag"];
-//            }
+                //            }
+                
+                
+                
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = @"登录成功";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:3];
+                
+                NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+                
+                
+                NSDictionary *myDictionary=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:name,password, nil] forKeys:[NSArray arrayWithObjects:@"name",@"pass", nil]];
+                
+                [mySettingData setObject:myDictionary forKey:@"myDictionary"];
+                //  强制让数据立刻保存
+                [self ShiFouFeYiDaiKuan];
+                
+                [mySettingData synchronize];
+                
+                //                        MainVC *l=[self.storyboard instantiateViewControllerWithIdentifier:@"MainVC" ];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"loginstate" object:nil];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                
+                
+            }
+            else
+            {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = @"用户名或密码错误！";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:3];
+                
+            }
             
             
+ 
             
-            
+        }
+        @catch (NSException * e) {
             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
             HUD.mode = MBProgressHUDModeText;
             
-            HUD.labelText = @"登录成功";
+            HUD.labelText=@"请检查你的网络连接!";
             
             HUD.margin = 10.f;
             
             HUD.removeFromSuperViewOnHide=YES;
             
-            [HUD hide:YES afterDelay:3];
-            
-            NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
-            
-            
-            NSDictionary *myDictionary=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:name,password, nil] forKeys:[NSArray arrayWithObjects:@"name",@"pass", nil]];
-            
-            [mySettingData setObject:myDictionary forKey:@"myDictionary"];
-            //  强制让数据立刻保存
-            [self ShiFouFeYiDaiKuan];
-            
-            [mySettingData synchronize];
-            
-            //                        MainVC *l=[self.storyboard instantiateViewControllerWithIdentifier:@"MainVC" ];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"loginstate" object:nil];
-            
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            
-            
+            [HUD hide:YES afterDelay:1];
         }
-        else
-        {
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            
-            HUD.mode = MBProgressHUDModeText;
-            
-            HUD.labelText = @"用户名或密码错误！";
-            
-            HUD.margin = 10.f;
-            
-            HUD.removeFromSuperViewOnHide=YES;
-            
-            [HUD hide:YES afterDelay:3];
-            
-        }
-        
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -683,15 +700,32 @@
 
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-               NSLog(@"Success----: %@", responseObject);
-        //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
-        
-        [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
-        [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        @try
+        {
+            
+            NSLog(@"Success----: %@", responseObject);
+            //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
+            
+            [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
+            [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
+            
+            
+
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
         
     }];

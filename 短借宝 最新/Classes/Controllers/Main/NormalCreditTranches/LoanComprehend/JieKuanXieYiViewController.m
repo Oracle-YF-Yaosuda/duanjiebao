@@ -215,25 +215,42 @@
     NSLog(@"get--url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        //  NSLog(@"%@",responseObject);
-        
-        NSLog(@"dsa---%@",responseObject);
-        
-        
-        [HUD hide:YES];
-        
-        
-        if ([[responseObject objectForKey:@"flag"] intValue]==1)
+        @try
+        {
+            //  NSLog(@"%@",responseObject);
             
-            [self TiJiaoDingDan];
-        
-        else{
+            NSLog(@"dsa---%@",responseObject);
             
-            [self popview];
+            
+            [HUD hide:YES];
+            
+            
+            if ([[responseObject objectForKey:@"flag"] intValue]==1)
+                
+                [self TiJiaoDingDan];
+            
+            else{
+                
+                [self popview];
+                
+            }
+            
+
             
         }
-        
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -427,25 +444,42 @@
     NSLog(@"get--url--%@",url2);
     
     [manager POST:url1 parameters:dataDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        @try
+        {
+            //  NSLog(@"%@",responseObject);
+            
+            NSLog(@"dsASa---%@",responseObject);
+            
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            
+            HUD.mode =MBProgressHUDModeText;
+            
+            HUD.labelText =[responseObject objectForKey:@"massages"];
+            
+            HUD.margin = 10.f;
+            
+            [HUD setRemoveFromSuperViewOnHide:YES];
+            
+            [HUD hide:YES afterDelay:2];
+            
+
+            
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
-        //  NSLog(@"%@",responseObject);
-        
-        NSLog(@"dsASa---%@",responseObject);
-       
-        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
-        
-        HUD.mode =MBProgressHUDModeText;
-        
-        HUD.labelText =[responseObject objectForKey:@"massages"];
-        
-        HUD.margin = 10.f;
-        
-        [HUD setRemoveFromSuperViewOnHide:YES];
-        
-        [HUD hide:YES afterDelay:2];
-        
-   
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -475,7 +509,7 @@
 
 }
 
-
+#pragma 这个 要咋改啊
 -(void)TiJiaoDingDan{
     AFHTTPRequestOperationManager*manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/json",@"text/plain",@"text/html", nil];

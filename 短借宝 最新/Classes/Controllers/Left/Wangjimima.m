@@ -260,49 +260,66 @@
         NSString *url1=[url2 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            NSLog(@"aaaaaa%@",responseObject);
-            
-            if (HUD) {
+            @try
+            {
+                
+                NSLog(@"aaaaaa%@",responseObject);
+                
+                if (HUD) {
+                    HUD.removeFromSuperViewOnHide=YES;
+                    [HUD hide:YES afterDelay:0];
+                }
+                
+                NSString *requestTmp = [NSString stringWithString:operation.responseString];
+                
+                NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+                //系统自带JSON解析
+                NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+                
+                
+                
+                NSLog(@"yan--%@",resultDic);
+                
+                //        NSLog(@"%@",[resultDic objectForKey:@"flag"]);
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = [resultDic objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
                 HUD.removeFromSuperViewOnHide=YES;
-                [HUD hide:YES afterDelay:0];
+                
+                [HUD hide:YES afterDelay:2];
+                
+                
+                if ([[resultDic objectForKey:@"flag"] intValue]==1) {
+                    
+                    tt1=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(run:) userInfo:nil repeats:YES];
+                    
+                    [[NSRunLoop currentRunLoop] addTimer:tt1 forMode:NSRunLoopCommonModes];
+                    
+                    getcode.userInteractionEnabled=NO;
+                    
+                }
+                
+
             }
-            
-            NSString *requestTmp = [NSString stringWithString:operation.responseString];
-            
-            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-            //系统自带JSON解析
-            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-            
-            
-            
-            NSLog(@"yan--%@",resultDic);
-            
-            //        NSLog(@"%@",[resultDic objectForKey:@"flag"]);
-            
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            
-            HUD.mode = MBProgressHUDModeText;
-            
-            HUD.labelText = [resultDic objectForKey:@"massages"];
-            
-            HUD.margin = 10.f;
-            
-            HUD.removeFromSuperViewOnHide=YES;
-            
-            [HUD hide:YES afterDelay:2];
-            
-            
-            if ([[resultDic objectForKey:@"flag"] intValue]==1) {
+            @catch (NSException * e) {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 
-                tt1=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(run:) userInfo:nil repeats:YES];
+                HUD.mode = MBProgressHUDModeText;
                 
-                [[NSRunLoop currentRunLoop] addTimer:tt1 forMode:NSRunLoopCommonModes];
+                HUD.labelText=@"请检查你的网络连接!";
                 
-                getcode.userInteractionEnabled=NO;
+                HUD.margin = 10.f;
                 
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
             }
-            
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
@@ -472,31 +489,48 @@
         NSLog(@"url--%@",url2);
         
         [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            NSLog(@"aaaaaa--%@",responseObject);
-            
-            if (HUD) {
+            @try
+            {
+                
+                NSLog(@"aaaaaa--%@",responseObject);
+                
+                if (HUD) {
+                    HUD.removeFromSuperViewOnHide=YES;
+                    [HUD hide:YES afterDelay:0];
+                }
+                if ([[responseObject objectForKey:@"flag"] intValue]==1) {
+                    //跳转到登录页
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = [responseObject objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
                 HUD.removeFromSuperViewOnHide=YES;
-                [HUD hide:YES afterDelay:0];
+                
+                [HUD hide:YES afterDelay:2];
+                
+                
+
             }
-            if ([[responseObject objectForKey:@"flag"] intValue]==1) {
-                //跳转到登录页
-                [self.navigationController popViewControllerAnimated:YES];
+            @catch (NSException * e) {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"请检查你的网络连接!";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
             }
-            
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            
-            HUD.mode = MBProgressHUDModeText;
-            
-            HUD.labelText = [responseObject objectForKey:@"massages"];
-            
-            HUD.margin = 10.f;
-            
-            HUD.removeFromSuperViewOnHide=YES;
-            
-            [HUD hide:YES afterDelay:2];
-            
-            
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             

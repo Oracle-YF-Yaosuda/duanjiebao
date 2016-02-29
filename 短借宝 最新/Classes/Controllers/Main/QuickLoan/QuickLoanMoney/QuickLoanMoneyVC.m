@@ -308,35 +308,38 @@
         //        NSLog(@"url--%@",url2);
         
         [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"\njiekuangkjie\n\n-----\n%@",responseObject);
-            
-            _feilu.text=[NSString stringWithFormat:@"%.2f元",[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkjemin"] intValue]*[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmin"] intValue]*[[[responseObject objectForKey:@"jdlv"] objectForKey:@"pt_jblv"] floatValue]*0.001];
-            [HUD hide:YES];
-            HUD=nil;
-            
-        
-            NSDictionary *weatherInfo = [responseObject objectForKey:@"jdlv"];
-            
-            
-            self.ConViewHeight.constant = [UIScreen mainScreen].bounds.size.height;
-            self.ConVIewWeight.constant = [UIScreen mainScreen].bounds.size.width;
-            
-            
-            _huankuanshuoming.frame=CGRectMake(20, _huankuanshuoming.frame.origin.y, width-40, 20);
-            _huankuanshuoming.text=[NSString stringWithFormat:@"\t%@",[weatherInfo objectForKey:@"lvsm"]];
-            _huankuanshuoming.font=[UIFont systemFontOfSize:13.0f];
-            _huankuanshuoming.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
-            
-            _huankuanshuoming.numberOfLines=0;
-            
-            [_huankuanshuoming sizeToFit];
-            
-            _huadong.contentSize=CGSizeMake(width, CGRectGetHeight(_huankuanshuoming.frame)+500);
-            
-            NSLog(@"gap---%f",CGRectGetHeight(_huankuanshuoming.frame)+540);
-      
-            self.pt_jblv=[weatherInfo[@"pt_jblv"] floatValue];
-
+            @try
+            {
+                
+                NSLog(@"\njiekuangkjie\n\n-----\n%@",responseObject);
+                
+                _feilu.text=[NSString stringWithFormat:@"%.2f元",[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkjemin"] intValue]*[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmin"] intValue]*[[[responseObject objectForKey:@"jdlv"] objectForKey:@"pt_jblv"] floatValue]*0.001];
+                [HUD hide:YES];
+                HUD=nil;
+                
+                
+                NSDictionary *weatherInfo = [responseObject objectForKey:@"jdlv"];
+                
+                
+                self.ConViewHeight.constant = [UIScreen mainScreen].bounds.size.height;
+                self.ConVIewWeight.constant = [UIScreen mainScreen].bounds.size.width;
+                
+                
+                _huankuanshuoming.frame=CGRectMake(20, _huankuanshuoming.frame.origin.y, width-40, 20);
+                _huankuanshuoming.text=[NSString stringWithFormat:@"\t%@",[weatherInfo objectForKey:@"lvsm"]];
+                _huankuanshuoming.font=[UIFont systemFontOfSize:13.0f];
+                _huankuanshuoming.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
+                
+                _huankuanshuoming.numberOfLines=0;
+                
+                [_huankuanshuoming sizeToFit];
+                
+                _huadong.contentSize=CGSizeMake(width, CGRectGetHeight(_huankuanshuoming.frame)+500);
+                
+                NSLog(@"gap---%f",CGRectGetHeight(_huankuanshuoming.frame)+540);
+                
+                self.pt_jblv=[weatherInfo[@"pt_jblv"] floatValue];
+                
                 NSNumberFormatter *tempFormatter1 = [[NSNumberFormatter alloc] init];
                 //后尾加两零
                 [tempFormatter1 setPositiveSuffix:@"00"];
@@ -384,7 +387,22 @@
                 
                 UIColor *koldBlue = [UIColor colorWithRed:121/255.0 green:188/255.0 blue:50/255.0 alpha:1];
                 self.bottomSlider.popUpViewAnimatedColors = @[koldBlue];
-         
+                
+
+            }
+            @catch (NSException * e) {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"请检查你的网络连接!";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
             [HUD hide:YES];
@@ -565,33 +583,50 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"Success----: %@", responseObject);
-        //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
-        
-        if ([[responseObject[0] objectForKey:@"flag"] intValue]==0)
+        @try
         {
-        [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
-        [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
             
-            [self panduan];
-        
+            NSLog(@"Success----: %@", responseObject);
+            //        NSLog(@"Success: %@", [responseObject[0] objectForKey:@"flag"]);
+            
+            if ([[responseObject[0] objectForKey:@"flag"] intValue]==0)
+            {
+                [defaults3 setObject:[responseObject[0] objectForKey:@"flag"] forKey:@"DaiKuanShiFouKeYi"];
+                [defaults3 setObject:[responseObject[0] objectForKey:@"massages"] forKey:@"DaiKuanShuChuXinXi"];
+                
+                [self panduan];
+                
+            }
+            else{
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = [responseObject[0] objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:2];
+                
+                
+            }
+ 
         }
-        else{
-            
+        @catch (NSException * e) {
             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
             HUD.mode = MBProgressHUDModeText;
             
-            HUD.labelText = [responseObject[0] objectForKey:@"massages"];
+            HUD.labelText=@"请检查你的网络连接!";
             
             HUD.margin = 10.f;
             
             HUD.removeFromSuperViewOnHide=YES;
             
-            [HUD hide:YES afterDelay:2];
-            
-            
+            [HUD hide:YES afterDelay:1];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

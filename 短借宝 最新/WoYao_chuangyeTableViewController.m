@@ -210,43 +210,73 @@
     NSLog(@"-------------------\n\n\n---%@",[defaults3 objectForKey:@"zhid"]);
 //    AFJSONResponseSerializer * responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
 //    responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
-  
-    [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+   
     
-         if ([[responseObject valueForKey:@"flag"] intValue] == 1) {
-             
-             LianXIWoMenVC*lianxi=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LianXIWoMen"];
-             [self.navigationController pushViewController:lianxi animated:YES];
-             
-             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-             
-             HUD.mode = MBProgressHUDModeText;
-             
-             HUD.labelText = @"提交成功";
-             
-             HUD.margin = 10.f;
-             
-             HUD.removeFromSuperViewOnHide=YES;
-             
-             [HUD hide:YES afterDelay:1];
+//    NSError *error;
+//    //加载一个NSURL对象
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://m.weather.com.cn/data/101180601.html"]];
+//    //将请求的url数据放到NSData对象中
+//    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//    //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
+//    NSDictionary *weatherDic = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+//    if(error==nil){
+//    NSDictionary *weatherInfo = [weatherDic objectForKey:@"weatherinfo"];
+//    }else {
+//        NSLog(@"shibai");
+//    }
+    
+    [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      
+        @try
+        {
+            if ([[responseObject valueForKey:@"flag"] intValue] == 1) {
+                
+                LianXIWoMenVC*lianxi=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LianXIWoMen"];
+                [self.navigationController pushViewController:lianxi animated:YES];
+                
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = @"提交成功";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+                
+                NSLog(@"提交成功");
+                
+            }else{
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"massages"]];
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+                NSLog(@"zheshisha---------%@ ",[responseObject objectForKey:@"massages"]);
+            }
 
-             NSLog(@"提交成功");
-             
-         }else{
-             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-             
-             HUD.mode = MBProgressHUDModeText;
-             
-             HUD.labelText = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"massages"]];
-             
-             HUD.margin = 10.f;
-             
-             HUD.removeFromSuperViewOnHide=YES;
-             
-             [HUD hide:YES afterDelay:1];
-             NSLog(@"zheshisha---------%@ ",[responseObject objectForKey:@"massages"]);
-         }
-        
+        }@catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+            
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         

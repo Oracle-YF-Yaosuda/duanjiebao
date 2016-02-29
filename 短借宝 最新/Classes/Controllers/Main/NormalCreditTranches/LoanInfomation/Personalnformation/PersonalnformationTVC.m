@@ -109,11 +109,28 @@
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [HUD hide:YES];
-        
-        if ([responseObject isEqual:@""]||[responseObject isEqual:[NSNull null]]||[responseObject count]==0) {
-            _GeRenXinXi_Name_Field.userInteractionEnabled=YES;
-        }else{
-            _GeRenXinXi_Name_Field.userInteractionEnabled=NO;
+        @try
+        {
+            if ([responseObject isEqual:@""]||[responseObject isEqual:[NSNull null]]||[responseObject count]==0) {
+                _GeRenXinXi_Name_Field.userInteractionEnabled=YES;
+            }else{
+                _GeRenXinXi_Name_Field.userInteractionEnabled=NO;
+            }
+
+            
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
@@ -161,26 +178,44 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
-        
-        [HUD hide:YES];
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        
-        if (resultDic.count>0) {
+        @try
+        {
+            NSLog(@"%@",responseObject);
             
-            self.GeRenXinXi_Name_Field.enabled=NO;
+            [HUD hide:YES];
+            
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            
+            
+            if (resultDic.count>0) {
+                
+                self.GeRenXinXi_Name_Field.enabled=NO;
+                
+            }
+            else
+                
+                self.GeRenXinXi_Name_Field.enabled=YES;
+            
+
             
         }
-        else
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
-            self.GeRenXinXi_Name_Field.enabled=YES;
-        
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
         
         
@@ -2162,64 +2197,81 @@
     
     //把AF请求解析成Json格式
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        @try
+        {
+            
+            NSLog(@"operation hasAcceptableStatusCode: %@", responseObject);
+            
+            //返回成功的值
+            NSLog(@"Success: %@", operation.responseString);
+            
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"%@",resultDic);
+            
+            NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
+            
+            NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+            
+            //        hyxx
+            
+            [defaults3 setObject:[dic objectForKey:@"jtzz"] forKey:@"JiaTingZhuZhi"];//家庭住址
+            [defaults3 setObject:[dic objectForKey:@"address"] forKey:@"GeRenXinXi_ShengShiQu_Field"];//地址
+            [defaults3 setObject:[dic objectForKey:@"csrq"] forKey:@"GeRenXinXi_ShengRi_Field"];//生日
+            [defaults3 setObject:[dic objectForKey:@"fjh"] forKey:@"FangJianHao"];//房间号
+            [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];//会员学号
+            [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"GeRenXinXi_Name_Field"];//会员姓名
+            [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];
+            [defaults3 setObject:[dic objectForKey:@"id"] forKey:@"id"];//会员id
+            [defaults3 setObject:[dic objectForKey:@"sex"] forKey:@"xingbie"];//性别
+            [defaults3 setObject:[dic objectForKey:@"sfzh"] forKey:@"GeRenXinXi_ShenFenZhenHao_Field"];//身份证号
+            [defaults3 setObject:[dic objectForKey:@"ssdz"] forKey:@"SuSheDiZhi"];//宿舍地址
+            [defaults3 setObject:[dic objectForKey:@"sslh"] forKey:@"GongYuHao"];//宿舍楼号
+            [defaults3 setObject:[dic objectForKey:@"szbj"] forKey:@"GeRenXinXi_BanJi_Field"];//所在班级
+            [defaults3 setObject:[dic objectForKey:@"szdx"] forKey:@"GeRenXinXi_SuoZaiDaXue_Field"];//所在大学
+            [defaults3 setObject:[dic objectForKey:@"szzy"] forKey:@"GeRenXinXi_SuoZaiZhuanYe_Field"];//所在专业
+            [defaults3 setObject:[dic objectForKey:@"xxwps"] forKey:@"GeRenXinXi_XueXinWangMiMai_Field"];//学信网密码
+            
+            NSLog(@"%@",[defaults3 objectForKey:@"GeRenXinXi_XueXinWangMiMai_Field"]);
+            
+            [defaults3 setObject:[dic objectForKey:@"xxwzh"] forKey:@"GeRenXinXi_XueXinWangZhangHao_Field"];//学信网账号
+            [defaults3 setObject:[dic objectForKey:@"zhid"] forKey:@"zhid"];//会员账号id
+            //        换到另一个页面
+            [self.navigationController
+             popViewControllerAnimated:YES];
+            
+            //[self.delegate hid];
+            
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText = @"上传成功";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
         
-        NSLog(@"operation hasAcceptableStatusCode: %@", responseObject);
-        
-        //返回成功的值
-        NSLog(@"Success: %@", operation.responseString);
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",resultDic);
-        
-        NSDictionary *dic=[resultDic objectForKey:@"hyxx"];
-        
-        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
-        
-        //        hyxx
-        
-        [defaults3 setObject:[dic objectForKey:@"jtzz"] forKey:@"JiaTingZhuZhi"];//家庭住址
-        [defaults3 setObject:[dic objectForKey:@"address"] forKey:@"GeRenXinXi_ShengShiQu_Field"];//地址
-        [defaults3 setObject:[dic objectForKey:@"csrq"] forKey:@"GeRenXinXi_ShengRi_Field"];//生日
-        [defaults3 setObject:[dic objectForKey:@"fjh"] forKey:@"FangJianHao"];//房间号
-        [defaults3 setObject:[dic objectForKey:@"xl"] forKey:@"XUeHao"];//会员学号
-        [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"GeRenXinXi_Name_Field"];//会员姓名
-        [defaults3 setObject:[dic objectForKey:@"hyxm"] forKey:@"YinHangKaXinXi_KaiHuRenXingMing_Field"];
-        [defaults3 setObject:[dic objectForKey:@"id"] forKey:@"id"];//会员id
-        [defaults3 setObject:[dic objectForKey:@"sex"] forKey:@"xingbie"];//性别
-        [defaults3 setObject:[dic objectForKey:@"sfzh"] forKey:@"GeRenXinXi_ShenFenZhenHao_Field"];//身份证号
-        [defaults3 setObject:[dic objectForKey:@"ssdz"] forKey:@"SuSheDiZhi"];//宿舍地址
-        [defaults3 setObject:[dic objectForKey:@"sslh"] forKey:@"GongYuHao"];//宿舍楼号
-        [defaults3 setObject:[dic objectForKey:@"szbj"] forKey:@"GeRenXinXi_BanJi_Field"];//所在班级
-        [defaults3 setObject:[dic objectForKey:@"szdx"] forKey:@"GeRenXinXi_SuoZaiDaXue_Field"];//所在大学
-        [defaults3 setObject:[dic objectForKey:@"szzy"] forKey:@"GeRenXinXi_SuoZaiZhuanYe_Field"];//所在专业
-        [defaults3 setObject:[dic objectForKey:@"xxwps"] forKey:@"GeRenXinXi_XueXinWangMiMai_Field"];//学信网密码
-        
-        NSLog(@"%@",[defaults3 objectForKey:@"GeRenXinXi_XueXinWangMiMai_Field"]);
-        
-        [defaults3 setObject:[dic objectForKey:@"xxwzh"] forKey:@"GeRenXinXi_XueXinWangZhangHao_Field"];//学信网账号
-        [defaults3 setObject:[dic objectForKey:@"zhid"] forKey:@"zhid"];//会员账号id
-        //        换到另一个页面
-        [self.navigationController
-         popViewControllerAnimated:YES];
-        
-        //[self.delegate hid];
-        
-        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
-        HUD.mode = MBProgressHUDModeText;
-        
-        HUD.labelText = @"上传成功";
-        
-        HUD.margin = 10.f;
-        
-        HUD.removeFromSuperViewOnHide=YES;
-        
-        [HUD hide:YES afterDelay:1];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

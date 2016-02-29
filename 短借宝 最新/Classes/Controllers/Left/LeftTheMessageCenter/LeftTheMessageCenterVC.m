@@ -195,40 +195,57 @@
     //    NSLog(@"url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"mm--%@",responseObject);
-        
-        //        hyxx
-        NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+        @try
+        {
+            NSLog(@"mm--%@",responseObject);
+            
+            //        hyxx
+            NSUserDefaults *defaults3=[NSUserDefaults standardUserDefaults];
+            
+            [defaults3 setObject:[responseObject objectForKey:@"jfsm"] forKey:@"JiFenShuoMing"];
+            
+            //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"积分说明" message:[defaults3 objectForKey:@"JiFenShuoMing"] delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+            //        alertView.backgroundColor=[UIColor redColor];
+            //
+            //        [alertView show];
+            
+            [self popview];
+            
+            ll11.text=@"积分说明";
+            
+            tishi.frame=CGRectMake(25, 75, width-50, 20);
+            tishi.text=[defaults3 objectForKey:@"JiFenShuoMing"];
+            tishi.numberOfLines=0;
+            [tishi sizeToFit];
+            
+            bai.frame=CGRectMake(bai.frame.origin.x, bai.frame.origin.y, bai.frame.size.width, 75+CGRectGetMaxY(tishi.frame));
+            
+            quxiao.hidden=YES;
+            heng1.hidden=YES;
+            
+            que.frame=CGRectMake(0, CGRectGetMaxY(tishi.frame)+25, width, 50);
+            
+            whowho=1;
+            
+            // [que addTarget:self action:@selector(quedingla) forControlEvents:UIControlEventTouchUpInside];
+            
 
-        [defaults3 setObject:[responseObject objectForKey:@"jfsm"] forKey:@"JiFenShuoMing"];
-
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"积分说明" message:[defaults3 objectForKey:@"JiFenShuoMing"] delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-//        alertView.backgroundColor=[UIColor redColor];
-//        
-//        [alertView show];
-        
-        [self popview];
-        
-        ll11.text=@"积分说明";
-
-        tishi.frame=CGRectMake(25, 75, width-50, 20);
-        tishi.text=[defaults3 objectForKey:@"JiFenShuoMing"];
-        tishi.numberOfLines=0;
-        [tishi sizeToFit];
-        
-        bai.frame=CGRectMake(bai.frame.origin.x, bai.frame.origin.y, bai.frame.size.width, 75+CGRectGetMaxY(tishi.frame));
-        
-        quxiao.hidden=YES;
-        heng1.hidden=YES;
-        
-        que.frame=CGRectMake(0, CGRectGetMaxY(tishi.frame)+25, width, 50);
-        
-        whowho=1;
-        
-       // [que addTarget:self action:@selector(quedingla) forControlEvents:UIControlEventTouchUpInside];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"%@",error);
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"积分说明" message:@"请检查网络在查看积分兑换说明。" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
@@ -296,50 +313,67 @@
     
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        self.tableViewk.delegate=self;
-        self.tableViewk.dataSource=self;
-        
-        
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
-        
-        NSLog(@"---%@",resultDic);
-        //        NSLog(@"aaaaaaaa%@",[defaults3 objectForKey:@"LiPin"]);
-        
-        if (JiShu==1) {
-            [shuju removeAllObjects];
+        @try
+        {
+            self.tableViewk.delegate=self;
+            self.tableViewk.dataSource=self;
+            
+            
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            //系统自带JSON解析
+            NSMutableArray *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+            
+            
+            NSLog(@"---%@",resultDic);
+            //        NSLog(@"aaaaaaaa%@",[defaults3 objectForKey:@"LiPin"]);
+            
+            if (JiShu==1) {
+                [shuju removeAllObjects];
+            }
+            
+            for (NSDictionary *dic in resultDic) {
+                [shuju addObject:dic];
+            }
+            
+            
+            //        for (int a=0 ;a<resultDic.count ;a++) {
+            //
+            //            if ([[resultDic[a] objectForKey:@"kybs"] integerValue]==0) {
+            //
+            //                [resultDic removeObjectAtIndex:[resultDic[a] integerValue]==0];
+            //
+            //                [defaults3 setObject:resultDic forKey:@"LiPin"];
+            //            }else{
+            //
+            //                [defaults3 setObject:resultDic forKey:@"LiPin"];
+            //                
+            //                
+            //            }
+            //        }
+            
+            
+            [self.tableViewk reloadData];
+            
+            [HUD removeFromSuperview];
+            HUD=nil;
+
+            
         }
-        
-        for (NSDictionary *dic in resultDic) {
-            [shuju addObject:dic];
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
         }
-        
-        
-//        for (int a=0 ;a<resultDic.count ;a++) {
-//            
-//            if ([[resultDic[a] objectForKey:@"kybs"] integerValue]==0) {
-//                
-//                [resultDic removeObjectAtIndex:[resultDic[a] integerValue]==0];
-//                
-//                [defaults3 setObject:resultDic forKey:@"LiPin"];
-//            }else{
-//                
-//                [defaults3 setObject:resultDic forKey:@"LiPin"];
-//                
-//                
-//            }
-//        }
-      
-        
-        [self.tableViewk reloadData];
-        
-        [HUD removeFromSuperview];
-        HUD=nil;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -483,38 +517,55 @@
     NSLog(@"get--url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        //  NSLog(@"%@",responseObject);
-        
-        NSLog(@"dsa---%@",responseObject);
-        
-        [HUD hide:YES];
-        
-        [HUD removeFromSuperview];
-        
-        HUD=nil;
-        
-        
-        
-        if ([[responseObject objectForKey:@"flag"] intValue]==1)
-            
+        @try
         {
+            //  NSLog(@"%@",responseObject);
             
+            NSLog(@"dsa---%@",responseObject);
+            
+            [HUD hide:YES];
+            
+            [HUD removeFromSuperview];
+            
+            HUD=nil;
+            
+            
+            
+            if ([[responseObject objectForKey:@"flag"] intValue]==1)
+                
+            {
+                
                 [self popview];
-            
+                
                 tishi.text=[NSString stringWithFormat:@"确定要消耗%@积分换取%@商品吗?",[shuju[index] objectForKey:@"dhjfe"],[shuju[index] objectForKey:@"spmc"]];
                 tishi.frame=CGRectMake(25, 75, width-50, 20);
                 tishi.numberOfLines=0;
                 [tishi sizeToFit];
+                
+            }
+            
+            else{
+                
+                [self popview3];
+                
+            }
+            
+ 
             
         }
-        
-        else{
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             
-            [self popview3];
+            HUD.mode = MBProgressHUDModeText;
             
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
         }
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

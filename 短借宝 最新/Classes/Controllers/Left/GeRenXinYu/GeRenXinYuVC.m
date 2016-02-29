@@ -9,10 +9,12 @@
 #import "GeRenXinYuVC.h"
 #import "AFNetworking.h"
 #import "JSONKit.h"
-
+#import "MBProgressHUD.h"
 #import "Header.h"
 
-@interface GeRenXinYuVC ()
+@interface GeRenXinYuVC (){
+    MBProgressHUD*HUD;
+}
 @property (strong, nonatomic) UILabel *JiFen_label;
 @property (copy ,nonatomic) NSString *b;
 
@@ -65,54 +67,71 @@
     //    NSLog(@"url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"xinxigern--%@",responseObject);
-        
-        UILabel *XinYongYiJiA=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(view_Kuang.frame)+20, self.view.frame.size.width, 15)];
-        NSString *a=[NSString stringWithFormat:@"%@:%@",@"信用一级",[responseObject objectForKey:@"xyyj"]];
-        XinYongYiJiA.text=a;
-        XinYongYiJiA.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:XinYongYiJiA];
-        
-        UILabel *XinYongErJiB=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongYiJiA.frame)+20, self.view.frame.size.width, 15)];
-        NSString *b=[NSString stringWithFormat:@"%@:%@",@"信用二级",[responseObject objectForKey:@"xyej"]];
-        XinYongErJiB.text=b;
-        XinYongErJiB.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:XinYongErJiB];
-        
-        UILabel *XinYongSanJiC=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongErJiB.frame)+20, self.view.frame.size.width, 15)];
-        NSString *c=[NSString stringWithFormat:@"%@:%@",@"信用三级",[responseObject objectForKey:@"xysaj"]];
-        XinYongSanJiC.text=c;
-        XinYongSanJiC.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:XinYongSanJiC];
+        @try
+        {
+            NSLog(@"xinxigern--%@",responseObject);
+            
+            UILabel *XinYongYiJiA=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(view_Kuang.frame)+20, self.view.frame.size.width, 15)];
+            NSString *a=[NSString stringWithFormat:@"%@:%@",@"信用一级",[responseObject objectForKey:@"xyyj"]];
+            XinYongYiJiA.text=a;
+            XinYongYiJiA.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:XinYongYiJiA];
+            
+            UILabel *XinYongErJiB=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongYiJiA.frame)+20, self.view.frame.size.width, 15)];
+            NSString *b=[NSString stringWithFormat:@"%@:%@",@"信用二级",[responseObject objectForKey:@"xyej"]];
+            XinYongErJiB.text=b;
+            XinYongErJiB.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:XinYongErJiB];
+            
+            UILabel *XinYongSanJiC=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongErJiB.frame)+20, self.view.frame.size.width, 15)];
+            NSString *c=[NSString stringWithFormat:@"%@:%@",@"信用三级",[responseObject objectForKey:@"xysaj"]];
+            XinYongSanJiC.text=c;
+            XinYongSanJiC.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:XinYongSanJiC];
+            
+            UILabel *XinYongSiJiD=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongSanJiC.frame)+20, self.view.frame.size.width, 15)];
+            NSString *d=[NSString stringWithFormat:@"%@:%@",@"信用四级",[responseObject objectForKey:@"xysij"]];
+            XinYongSiJiD.text=d;
+            XinYongSiJiD.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:XinYongSiJiD];
+            
+            UILabel *XinYongWuJiF=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongSiJiD.frame)+20, self.view.frame.size.width, 15)];
+            NSString *f=[NSString stringWithFormat:@"%@:%@",@"信用五级",[responseObject objectForKey:@"xywj"]];
+            XinYongWuJiF.text=f;
+            XinYongWuJiF.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:XinYongWuJiF];
+            
+            UILabel *HuanKuanJinE=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongWuJiF.frame)+20, self.view.frame.size.width, 15)];
+            NSString *e=[NSString stringWithFormat:@"%@:%@元/信用值",@"正常还款金额信用比",[responseObject objectForKey:@"hkxyb"]];
+            HuanKuanJinE.text=e;
+            HuanKuanJinE.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:HuanKuanJinE];
+            
+            UILabel *WeiYueXinYongBiF=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(HuanKuanJinE.frame)+20, self.view.frame.size.width, 15)];
+            NSString *z=[NSString stringWithFormat:@"%@:%@元/信用值",@"违约扣款信用比",[responseObject objectForKey:@"wyxyb"]];
+            WeiYueXinYongBiF.text=z;
+            WeiYueXinYongBiF.font=[UIFont fontWithName:@"Heiti SC" size:15];
+            [self.view addSubview:WeiYueXinYongBiF];
+            
+            
+            
 
-        UILabel *XinYongSiJiD=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongSanJiC.frame)+20, self.view.frame.size.width, 15)];
-        NSString *d=[NSString stringWithFormat:@"%@:%@",@"信用四级",[responseObject objectForKey:@"xysij"]];
-        XinYongSiJiD.text=d;
-        XinYongSiJiD.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:XinYongSiJiD];
-        
-        UILabel *XinYongWuJiF=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongSiJiD.frame)+20, self.view.frame.size.width, 15)];
-        NSString *f=[NSString stringWithFormat:@"%@:%@",@"信用五级",[responseObject objectForKey:@"xywj"]];
-        XinYongWuJiF.text=f;
-        XinYongWuJiF.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:XinYongWuJiF];
-        
-        UILabel *HuanKuanJinE=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(XinYongWuJiF.frame)+20, self.view.frame.size.width, 15)];
-        NSString *e=[NSString stringWithFormat:@"%@:%@元/信用值",@"正常还款金额信用比",[responseObject objectForKey:@"hkxyb"]];
-        HuanKuanJinE.text=e;
-        HuanKuanJinE.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:HuanKuanJinE];
-        
-        UILabel *WeiYueXinYongBiF=[[UILabel alloc]initWithFrame:CGRectMake(JiFen.frame.origin.x, CGRectGetMaxY(HuanKuanJinE.frame)+20, self.view.frame.size.width, 15)];
-        NSString *z=[NSString stringWithFormat:@"%@:%@元/信用值",@"违约扣款信用比",[responseObject objectForKey:@"wyxyb"]];
-        WeiYueXinYongBiF.text=z;
-        WeiYueXinYongBiF.font=[UIFont fontWithName:@"Heiti SC" size:15];
-        [self.view addSubview:WeiYueXinYongBiF];
-
-
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }
+        @catch (NSException * e) {
+             HUD= [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"%@",error);
         

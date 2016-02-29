@@ -373,81 +373,24 @@
     NSLog(@"url--%@",url1);
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"dangqian--%@",responseObject);
-        [HUD hide:YES];
-        [HUD removeFromSuperview];
-        HUD=nil;
-        
-        if ([operation.responseObject count]==0) {
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            
-            HUD.mode = MBProgressHUDModeCustomView;
-            
-            HUD.yOffset=100;
-            
-            UILabel *ll=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)];
-            ll.backgroundColor=[UIColor clearColor];
-            
-            ll.text=@"未借款，无法进行还款操作！";
-            ll.textColor=[UIColor whiteColor];
-            
-            ll.numberOfLines=0;
-            
-            [ll sizeToFit];
-            
-            HUD.customView=ll;
-            
-            
-            HUD.removeFromSuperViewOnHide=YES;
-            
-            [HUD hide:YES afterDelay:2];
-            
-        }
-        else
+        @try
         {
-        if ([[responseObject[0]  objectForKey:@"cwfkbs"]intValue]!=1 ) {
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            NSLog(@"dangqian--%@",responseObject);
+            [HUD hide:YES];
+            [HUD removeFromSuperview];
+            HUD=nil;
             
-                        HUD.mode = MBProgressHUDModeCustomView;
-            
-                        HUD.yOffset=100;
-            
-            
-                        UILabel *ll=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)];
-                        ll.backgroundColor=[UIColor clearColor];
-            
-                        ll.text=@"未放款，无法进行还款操作！";
-                        ll.textColor=[UIColor whiteColor];
-            
-                        ll.numberOfLines=0;
-            
-                        [ll sizeToFit];
-            
-                        HUD.customView=ll;
-                        
-                        
-                        HUD.removeFromSuperViewOnHide=YES;
-                        
-                        [HUD hide:YES afterDelay:2];
-                        
-
-           
-            
-        }
-        else
-        {
-            if ([[responseObject[0] objectForKey:@"hksq"] intValue]!=0) {
+            if ([operation.responseObject count]==0) {
                 HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 
                 HUD.mode = MBProgressHUDModeCustomView;
                 
                 HUD.yOffset=100;
                 
-                
                 UILabel *ll=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)];
                 ll.backgroundColor=[UIColor clearColor];
                 
-                ll.text=@"已还款，无法再次进行还款操作！";
+                ll.text=@"未借款，无法进行还款操作！";
                 ll.textColor=[UIColor whiteColor];
                 
                 ll.numberOfLines=0;
@@ -460,17 +403,92 @@
                 HUD.removeFromSuperViewOnHide=YES;
                 
                 [HUD hide:YES afterDelay:2];
+                
             }
             else
             {
-            [[NSUserDefaults standardUserDefaults] setObject:[responseObject[0] objectForKey:@"id"] forKey:@"DaiKuanXinXiID"];
-            
-            [self popview1];
+                if ([[responseObject[0]  objectForKey:@"cwfkbs"]intValue]!=1 ) {
+                    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                    
+                    HUD.mode = MBProgressHUDModeCustomView;
+                    
+                    HUD.yOffset=100;
+                    
+                    
+                    UILabel *ll=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)];
+                    ll.backgroundColor=[UIColor clearColor];
+                    
+                    ll.text=@"未放款，无法进行还款操作！";
+                    ll.textColor=[UIColor whiteColor];
+                    
+                    ll.numberOfLines=0;
+                    
+                    [ll sizeToFit];
+                    
+                    HUD.customView=ll;
+                    
+                    
+                    HUD.removeFromSuperViewOnHide=YES;
+                    
+                    [HUD hide:YES afterDelay:2];
+                    
+                    
+                    
+                    
+                }
+                else
+                {
+                    if ([[responseObject[0] objectForKey:@"hksq"] intValue]!=0) {
+                        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                        
+                        HUD.mode = MBProgressHUDModeCustomView;
+                        
+                        HUD.yOffset=100;
+                        
+                        
+                        UILabel *ll=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)];
+                        ll.backgroundColor=[UIColor clearColor];
+                        
+                        ll.text=@"已还款，无法再次进行还款操作！";
+                        ll.textColor=[UIColor whiteColor];
+                        
+                        ll.numberOfLines=0;
+                        
+                        [ll sizeToFit];
+                        
+                        HUD.customView=ll;
+                        
+                        
+                        HUD.removeFromSuperViewOnHide=YES;
+                        
+                        [HUD hide:YES afterDelay:2];
+                    }
+                    else
+                    {
+                        [[NSUserDefaults standardUserDefaults] setObject:[responseObject[0] objectForKey:@"id"] forKey:@"DaiKuanXinXiID"];
+                        
+                        [self popview1];
+                    }
+                }
+                
             }
-        }
+            
 
+            
         }
-        
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -530,29 +548,46 @@
         NSLog(@"get--url--%@",url2);
     
     [manager POST:url1 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-      //  NSLog(@"%@",responseObject);
-        
-        NSLog(@"dsa---%@",responseObject);
-        
-        [HUD hide:YES];
-        
-        [HUD removeFromSuperview];
-        
-        HUD=nil;
-        
-        
-        
-        if ([[responseObject objectForKey:@"flag"] intValue]==1)
-        
-        [self getshangchuan];
-        
-        else{
+        @try
+        {
+            //  NSLog(@"%@",responseObject);
             
-            [self popview];
+            NSLog(@"dsa---%@",responseObject);
+            
+            [HUD hide:YES];
+            
+            [HUD removeFromSuperview];
+            
+            HUD=nil;
+            
+            
+            
+            if ([[responseObject objectForKey:@"flag"] intValue]==1)
+                
+                [self getshangchuan];
+            
+            else{
+                
+                [self popview];
+                
+            }
+            
+
             
         }
-        
+        @catch (NSException * e) {
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            HUD.mode = MBProgressHUDModeText;
+            
+            HUD.labelText=@"请检查你的网络连接!";
+            
+            HUD.margin = 10.f;
+            
+            HUD.removeFromSuperViewOnHide=YES;
+            
+            [HUD hide:YES afterDelay:1];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

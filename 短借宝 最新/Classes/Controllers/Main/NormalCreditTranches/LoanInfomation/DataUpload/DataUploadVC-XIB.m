@@ -121,6 +121,7 @@
     HUD.margin = 10.f;
     HUD.removeFromSuperViewOnHide=YES;
 }
+#pragma 这个不会改啊
 -(void)xianchengs{
     NSUserDefaults *d1=[NSUserDefaults standardUserDefaults];
     
