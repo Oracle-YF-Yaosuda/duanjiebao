@@ -141,6 +141,16 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"ture"]==1){
+        _xinxi.hidden=NO;
+        _geren.hidden=NO;
+        _ll.hidden=YES;
+    }else{
+        _xinxi.hidden=YES;
+        _geren.hidden=YES;
+        _ll.hidden=NO;
+        self.ll.text=@"点击登录/注册";
+    }
     if(self.view.frame.size.width<325){
         _ll.font=[UIFont systemFontOfSize:19];
     }
