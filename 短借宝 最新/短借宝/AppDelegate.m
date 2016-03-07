@@ -17,8 +17,6 @@
 #import "APService.h"
 #import "WXApi.h"
 
-
-
 @interface AppDelegate ()<EAIntroDelegate>
 @end
 
@@ -108,7 +106,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
     [APService handleRemoteNotification:userInfo];
-    
+    if (application.applicationState == UIApplicationStateActive) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    }
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"newyouhui"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tongzhi" object:nil];
@@ -126,16 +126,18 @@
     NSLog(@"deviceToken:%@",deviceToken);
 }
 
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    
-    NSLog(@"erroe---%@",error);
-    
-}
+//- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+//    
+//    NSLog(@"erroe---%@",error);
+//    
+//}
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     [APService handleRemoteNotification:userInfo];
-    
+    if (application.applicationState == UIApplicationStateActive) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    }
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"newyouhui"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tongzhi" object:nil];
@@ -173,13 +175,13 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if (application.applicationIconBadgeNumber>0) {
-        
-        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"newyouhui"];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"tongzhi" object:nil];
-        
-    }
+//    if (application.applicationIconBadgeNumber>0) {
+//        
+//        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"newyouhui"];
+//        
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"tongzhi" object:nil];
+//        
+//    }
     
     application.applicationIconBadgeNumber = 0;
 }

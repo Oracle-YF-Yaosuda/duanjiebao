@@ -27,7 +27,7 @@
     
     
     UILabel *ll1=[[UILabel alloc] initWithFrame:CGRectMake(10, 74, width-20, 20)];
-    ll1.text=@"柜台还款注意事项";
+    ll1.text=@"网银还款注意事项";
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
         ll1.font=[UIFont systemFontOfSize:14.0f weight:2];
@@ -38,14 +38,14 @@
     [self.view addSubview:ll1];
     
     UILabel *ll2=[[UILabel alloc] initWithFrame:CGRectMake(10, 104, width-20, 20)];
-    ll2.text=@"短借宝账号：";
+    ll2.text=@"短借宝账号(建设银行):";
     ll2.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
     ll2.font=[UIFont systemFontOfSize:14.0f];
     
     [self.view addSubview:ll2];
     
     UILabel *ll3=[[UILabel alloc] initWithFrame:CGRectMake(10, 134, width-20, 20)];
-    ll3.text=@"1218053044337058";
+    ll3.text=@"6217 0011 4002 4615 061";
     ll3.textColor=[UIColor colorWithRed:0 green:204.0/255 blue:176.0/255 alpha:1.0f];
     ll3.font=[UIFont systemFontOfSize:14.0f];
     
@@ -59,7 +59,7 @@
     [self.view addSubview:ll4];
     
     UILabel *ll5=[[UILabel alloc] initWithFrame:CGRectMake(10, 194, width-20, 20)];
-    ll5.text=@"黑龙江短借金融服务外包有限公司";
+    ll5.text=@"冯文辉";
     ll5.textColor=[UIColor colorWithRed:0 green:204.0/255 blue:176.0/255 alpha:1.0f];
     ll5.font=[UIFont systemFontOfSize:14.0f];
     
@@ -73,7 +73,7 @@
     [self.view addSubview:ll6];
     
     UILabel *ll7=[[UILabel alloc] initWithFrame:CGRectMake(10, 254, width-20, 20)];
-    ll7.text=@"哈尔滨宣化支行";
+    ll7.text=@"中国建设银行哈尔滨金中环支行";
     ll7.textColor=[UIColor colorWithRed:0 green:204.0/255 blue:176.0/255 alpha:1.0f];
     ll7.font=[UIFont systemFontOfSize:14.0f];
     

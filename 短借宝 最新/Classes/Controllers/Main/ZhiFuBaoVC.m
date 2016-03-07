@@ -27,7 +27,7 @@
     
     _zhifubao=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, width, heig)];
     
-    _zhifubao.contentSize=CGSizeMake(width,2800);
+    _zhifubao.contentSize=CGSizeMake(width,2830);
     
     UILabel *ll1=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, width-20, 20)];
     ll1.text=@"支付宝还款注意事项";
@@ -48,7 +48,7 @@
     [_zhifubao addSubview:ll2];
     
     UILabel *ll3=[[UILabel alloc] initWithFrame:CGRectMake(10, 70, width-20, 20)];
-    ll3.text=@"1140048893@qq.com";
+    ll3.text=@"15046102917";
     ll3.textColor=[UIColor colorWithRed:0 green:204.0/255 blue:176.0/255 alpha:1.0f];
     ll3.font=[UIFont systemFontOfSize:14.0f];
     
@@ -62,33 +62,33 @@
     [_zhifubao addSubview:ll4];
     
     UILabel *ll5=[[UILabel alloc] initWithFrame:CGRectMake(10, 130, width-20, 20)];
-    ll5.text=@"黑龙江短借金融服务外包有限公司";
+    ll5.text=@"冯文辉";
     ll5.textColor=[UIColor colorWithRed:0 green:204.0/255 blue:176.0/255 alpha:1.0f];
     ll5.font=[UIFont systemFontOfSize:14.0f];
     
     [_zhifubao addSubview:ll5];
     
     UILabel *ll6=[[UILabel alloc] initWithFrame:CGRectMake(10, 170, width-20, 20)];
-    ll6.text=@"还款时请填写\"捎句话\"";
+    ll6.text=@"还款时请务必填写:";
     ll6.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
     ll6.font=[UIFont systemFontOfSize:14.0f];
     
     [_zhifubao addSubview:ll6];
     
     UILabel *ll7=[[UILabel alloc] initWithFrame:CGRectMake(10, 200, width-20, 20)];
-    ll7.text=@"XXXXX.XXXXX";
+    ll7.text=@"借款人姓名和注册手机号，以免造成还款失败";
     ll7.textColor=[UIColor colorWithRed:0 green:204.0/255 blue:176.0/255 alpha:1.0f];
     ll7.font=[UIFont systemFontOfSize:14.0f];
     
     [_zhifubao addSubview:ll7];
     
     
-    UILabel *ll8=[[UILabel alloc] initWithFrame:CGRectMake(10, 230, width-20, 20)];
-    ll8.text=@"以免造成还款失败";
-    ll8.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
-    ll8.font=[UIFont systemFontOfSize:14.0f];
-    
-    [_zhifubao addSubview:ll8];
+//    UILabel *ll8=[[UILabel alloc] initWithFrame:CGRectMake(10, 230, width-20, 20)];
+//    ll8.text=@"以免造成还款失败";
+//    ll8.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
+//    ll8.font=[UIFont systemFontOfSize:14.0f];
+//    
+//    [_zhifubao addSubview:ll8];
     
     UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(0, 260, width, 2500)];
     

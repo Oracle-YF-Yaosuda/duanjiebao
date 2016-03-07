@@ -203,7 +203,7 @@
     [_HuanKuanShuoMing addSubview:weixin];
     
     UIButton *guitai=[[UIButton alloc] initWithFrame:CGRectMake(16, 84, width-32, 40)];
-    [guitai setTitle:@"柜台还款说明" forState:UIControlStateNormal];
+    [guitai setTitle:@"网银还款说明" forState:UIControlStateNormal];
     [guitai setTitleColor:[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f] forState:UIControlStateNormal];
     guitai.backgroundColor=[UIColor whiteColor];
     
@@ -215,19 +215,20 @@
     
     _HuankuanQueren=[[UIView alloc] initWithFrame:CGRectMake(0, 59, width, heig-59)];
     
-    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(16, 170, width-32, 48)];
+    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake((width-280)/2, 170, 280, 48)];
     
     img1.image=[UIImage imageNamed:@"queren_15"];
     [_HuankuanQueren addSubview:img1];
     
     UIButton *bb23=[[UIButton alloc] initWithFrame:CGRectMake(16, 75, width-32, 254)];
+//    bb23.hidden=YES;
     [bb23 addTarget:self action:@selector(phin:) forControlEvents:UIControlEventTouchUpInside];
     
     [_HuankuanQueren addSubview:bb23];
     
     _HuanKuanBeiZHu=[[UITextField alloc] initWithFrame:CGRectMake(16, 8, width-32, 41)];
     _HuanKuanBeiZHu.font=[UIFont systemFontOfSize:13.0f];
-    _HuanKuanBeiZHu.placeholder=@"请添加还款备注（例如 姓名及还款时间）";
+    _HuanKuanBeiZHu.placeholder=@"  请添加还款备注（例如 姓名及还款时间）";
     
     [_HuanKuanBeiZHu.layer setBorderWidth:1.0f];
     [_HuanKuanBeiZHu.layer setCornerRadius:5.0f];

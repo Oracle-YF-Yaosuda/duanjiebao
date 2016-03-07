@@ -86,7 +86,7 @@
     
     if (([[defaults objectForKey:@"tag"]intValue]==1)&& myDic2!=nil) {
         
-        lla.text= [myDic2 valueForKey:@"name"];
+//        lla.text= [myDic2 valueForKey:@"name"];
         
     }else
     {

@@ -132,9 +132,9 @@
     }else{
         //    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         //贷款信息页面
-        self.JinEw.text=[defaults3 objectForKey:@"JinE"];
-        self.QiXianw.text=[defaults3 objectForKey:@"QiXian"];
-        self.LiXiw.text=[defaults3 objectForKey:@"FeiLu"];
+        self.JinEw.text=[NSString stringWithFormat:@"%@元",[defaults3 objectForKey:@"JinE"]];
+        self.QiXianw.text=[NSString stringWithFormat:@"%@天",[defaults3 objectForKey:@"QiXian"] ];
+        self.LiXiw.text=[NSString stringWithFormat:@"%@元",[defaults3 objectForKey:@"FeiLu"] ];
         //个人信息
         self.PuTongName.text= [defaults3 objectForKey:@"GeRenXinXi_Name_Field"];//贷款人名
         self.XingBie.text=[defaults3 objectForKey:@"xingbie"];//贷款人性别

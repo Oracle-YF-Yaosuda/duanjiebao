@@ -79,14 +79,14 @@
     
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
-        [self.tableView reloadData];
+        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableView headerEndRefreshing];
     });
-    
+    [self.tableView reloadData];
     
 }
 
@@ -98,13 +98,14 @@
     [self DangQianDaiKuan];
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
-        [self.tableView reloadData];
+        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableView footerEndRefreshing];
     });
+    [self.tableView reloadData];
 }
 -(void)DangQianDaiKuan
 {

@@ -242,6 +242,7 @@
 		95E42B9E1C4336E2003F990D /* WoYao_chuangyeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E42B9D1C4336E2003F990D /* WoYao_chuangyeTableViewController.m */; };
 		95E481C01C41FE1B0061605F /* shouye_031.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E481BE1C41FE1B0061605F /* shouye_031.png */; };
 		95E481C11C41FE1B0061605F /* shouye_091.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E481BF1C41FE1B0061605F /* shouye_091.png */; };
+		D25604031C8A78B600D0A807 /* bbbb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D25604021C8A78B600D0A807 /* bbbb.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -701,6 +702,7 @@
 		95E42B9D1C4336E2003F990D /* WoYao_chuangyeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WoYao_chuangyeTableViewController.m; sourceTree = SOURCE_ROOT; };
 		95E481BE1C41FE1B0061605F /* shouye_031.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shouye_031.png; sourceTree = "<group>"; };
 		95E481BF1C41FE1B0061605F /* shouye_091.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shouye_091.png; sourceTree = "<group>"; };
+		D25604021C8A78B600D0A807 /* bbbb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bbbb.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1751,6 +1753,7 @@
 		7FE64DA71B4A79A200DAD165 /* 短借宝 */ = {
 			isa = PBXGroup;
 			children = (
+				D25604021C8A78B600D0A807 /* bbbb.jpg */,
 				95E481BE1C41FE1B0061605F /* shouye_031.png */,
 				95E481BF1C41FE1B0061605F /* shouye_091.png */,
 				6A49159B1BCCBDCF0034BA5E /* jifen.png */,
@@ -2171,6 +2174,7 @@
 				6ABCFD481BB510AB008D7A91 /* denglu_18.png in Resources */,
 				6ABCFD4A1BB510C7008D7A91 /* denglu_15.png in Resources */,
 				6A4915961BCCBD8D0034BA5E /* cehua_12.png in Resources */,
+				D25604031C8A78B600D0A807 /* bbbb.jpg in Resources */,
 				69E7773F1B9E766F00D79FF8 /* UMSShareListController.xib in Resources */,
 				7FE64DB91B4A79A200DAD165 /* Images.xcassets in Resources */,
 				6A49158E1BCCBD1D0034BA5E /* cehua_31.png in Resources */,

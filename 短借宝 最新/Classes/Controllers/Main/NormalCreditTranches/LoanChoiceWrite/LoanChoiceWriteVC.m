@@ -24,6 +24,10 @@
     MBProgressHUD *HUD;
     
 }
+@property (weak, nonatomic) IBOutlet UILabel *lable1;
+@property (weak, nonatomic) IBOutlet UILabel *lable2;
+@property (weak, nonatomic) IBOutlet UILabel *lable3;
+@property (weak, nonatomic) IBOutlet UILabel *lable4;
 
 
 @property (weak, nonatomic) IBOutlet ASValueTrackingSlider *topSlider;
@@ -49,7 +53,7 @@
 
 
 #warning 我要借款Button有一个判断钱数存进数据库
-
+int xiaotian=-1;
 - (void)viewDidLoad {
     _toptext.text=@"100";
 //    [self ShiFouFeYiDaiKuan];
@@ -83,21 +87,25 @@
             @try
             {
                 
-                //            NSLog(@"%@",responseObject);
+                            NSLog(@"\n\n 界面数据  %@\n\n",responseObject);
                 NSDictionary *weatherInfo = [responseObject objectForKey:@"jdlv"];
                 
+                _lable1.text=[NSString stringWithFormat:@"%@",[weatherInfo objectForKey:@"jkjemin"]];
+                _lable2.text=[NSString stringWithFormat:@"%@",[weatherInfo objectForKey:@"jkjemax"]];
+                _lable3.text=[NSString stringWithFormat:@"%@",[weatherInfo objectForKey:@"jkqxmin"]];
+                _lable4.text=[NSString stringWithFormat:@"%@",[weatherInfo objectForKey:@"jkqxmax"]];
                 
                 self.ConViewHeight.constant = [UIScreen mainScreen].bounds.size.height;
                 self.ConVIewWeight.constant = [UIScreen mainScreen].bounds.size.width;
                 
-                
+                xiaotian=[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmin"] intValue];
                 
                 _huankuanshuoming.numberOfLines = 0;
                 UIFont * tfont = [UIFont systemFontOfSize:12];
                 _huankuanshuoming.font = tfont;
                 _huankuanshuoming.backgroundColor = [UIColor whiteColor];
                 _huankuanshuoming.text=[NSString stringWithFormat:@"\t%@",[weatherInfo objectForKey:@"lvsm"]];
-                
+                _bottomtext.text=[NSString stringWithFormat:@"%d",xiaotian];
                 self.pt_jblv=[weatherInfo[@"pt_jblv"] floatValue];
                 NSLog(@"----------------------%.2f",_pt_jblv);
                 //线程

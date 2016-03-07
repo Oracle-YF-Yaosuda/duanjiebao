@@ -28,7 +28,7 @@
     
     _chuangye=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, width, heig)];
     
-    _chuangye.contentSize=CGSizeMake(320, 1470);
+    _chuangye.contentSize=CGSizeMake(320, 1270);
     
     [self.view addSubview:_chuangye];
     
@@ -49,22 +49,22 @@
     
     ll1.font=[UIFont systemFontOfSize:14.0f];
     ll1.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
-    ll1.text=@"     2014年我国高、校毕业生高达727万人，大学生就业的难度不断提高，创业还是择业成为了很多毕业生面临的一个难题。随着高效毕业生的逐年增加，就业压力逐渐增大，刚刚步入大学校门的学生也逐渐感受到就业的压力。面对这样的困境，身为大学生的你还要坐以待毙吗？还要等到毕业时到处碰壁却难以找到合适的工作吗？还要浪费青春将梦想埋葬在内心深处吗？\n      怀揣梦想的你一定想让梦想变成现实，创业便是改变命运的最好途径，从而成就你的职场梦想。可是大学生创业还面临个巨大的现实问题，资金问题。同学，当你看到这里的时候，资金已经不是问题，只要你有创业的想法，有创业项目，黑龙江短借金融服务外包有限公司可以提供资金支持，携手共创美好未来！";
+    ll1.text=@"       随着我国经济结构调整进入新常态，劳动力市场发生重大改变，导致大学生就业的难度不断提高，创业还是择业成为了很多毕业生面临的一个难题。随着高校毕业生的逐年增加，就业压力逐渐增大，刚刚步入大学校门的学生也逐渐感受到就业的压力。面对这样的困境，身为大学生的你还要坐以待毙吗？还要等到毕业时到处碰壁却难以找到合适的工作吗？还要浪费青春将梦想埋葬在内心深处吗?\n        怀揣梦想的你一定想让梦想变成现实，创业便是改变命运的最好途径，从而成就你的职场梦想。可是大学生创业还面临个巨大的现实问题-----资金问题。同学，当你看到这里的时候，资金已经不是问题，只要你有创业的想法，有创业项目，黑龙江短借金融服务外包有限公司可以提供资金支持，携手共创美好未来！";
     ll1.numberOfLines=0;
     [ll1 sizeToFit];
     
     [_chuangye addSubview:ll1];
     
-    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ll1.frame)+10, width-80, 219)];
-    img1.image=[UIImage imageNamed:@"sss"];
+//    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ll1.frame)+10, width-80, 219)];
+//    img1.image=[UIImage imageNamed:@"sss"];
+//    
+//    [_chuangye addSubview:img1];
     
-    [_chuangye addSubview:img1];
-    
-    UILabel *ll2=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(img1.frame)+10, width-32, 20)];
+    UILabel *ll2=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(ll1.frame)+10, width-32, 20)];
     
     ll2.font=[UIFont systemFontOfSize:14.0f];
     
-    ll2.text=@"     同学，还在等什么，还不快点申请加入我们创业的资金扶持项目，成就你的创业梦想！";
+    ll2.text=@"        同学，还在等什么，还不快点申请加入我们创业的资金扶持项目，成就你的创业梦想！";
     ll2.textColor=[UIColor redColor];
     ll2.numberOfLines=0;
     [ll2 sizeToFit];
@@ -86,9 +86,9 @@
     
     
      if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
-        llm.font=[UIFont systemFontOfSize:17 weight:2];
+        llm.font=[UIFont systemFontOfSize:15 weight:1.5];
     else
-        llm.font=[UIFont systemFontOfSize:17];
+        llm.font=[UIFont systemFontOfSize:15];
     
         llm.textColor=[UIColor blackColor];
       
@@ -101,7 +101,7 @@
     lln.font=[UIFont systemFontOfSize:14];
     lln.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
     
-    lln.text=@"2015年全国高校毕业生达到749万居多，大学生就业形势日渐严峻，创业将成为大学生就业的主流。黑龙江短借金融服务外包有限公司致力于为大学生提供金融服务，助你一“币”之力。让大学生的创业梦想得以实现。";
+    lln.text=@"大学生就业形势日渐严峻，创业将成为大学生就业的主流。黑龙江短借金融服务外包有限公司致力于为大学生提供金融服务，助你一“币”之力。让大学生的创业梦想得以实现。";
     lln.numberOfLines=0;
     [lln sizeToFit];
     
@@ -111,9 +111,9 @@
     UILabel *llm1=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(lln.frame)+10, width-32, 20)];
     
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
-        llm1.font=[UIFont systemFontOfSize:17 weight:2];
+        llm1.font=[UIFont systemFontOfSize:15 weight:1.5];
     else
-        llm1.font=[UIFont systemFontOfSize:17];
+        llm1.font=[UIFont systemFontOfSize:15];
     
     llm1.textColor=[UIColor blackColor];
     
@@ -133,9 +133,9 @@
     UILabel *llm2=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(lln1.frame)+10, width-32, 20)];
     
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
-        llm2.font=[UIFont systemFontOfSize:17 weight:2];
+        llm2.font=[UIFont systemFontOfSize:15 weight:1.5];
     else
-        llm2.font=[UIFont systemFontOfSize:17];
+        llm2.font=[UIFont systemFontOfSize:15];
     llm2.textColor=[UIColor blackColor];
     
     llm2.text=@"内容：";
@@ -145,7 +145,7 @@
     UILabel *lln2=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(llm2.frame)+10, width-32, 20)];
     
     lln2.font=[UIFont systemFontOfSize:14];
-     lln2.text=@"在线提交项目相关资料，我们会尽快与你取得联系，洽谈项目的具体问题。（详见扶持资金申请书）";
+    lln2.text=@"在线提交项目相关资料，我们会尽快与你取得联系，洽谈项目的具体问题。\n      （详见扶持资金申请书）";
     lln2.textColor=[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
     lln2.numberOfLines=0;
     [lln2 sizeToFit];
@@ -156,9 +156,9 @@
     UILabel *llm3=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(lln2.frame)+10, width-32, 20)];
     
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
-        llm3.font=[UIFont systemFontOfSize:17 weight:2];
+        llm3.font=[UIFont systemFontOfSize:16 weight:1.5];
     else
-        llm3.font=[UIFont systemFontOfSize:17];
+        llm3.font=[UIFont systemFontOfSize:16];
     llm3.textColor=[UIColor blackColor];
     
     llm3.text=@"特别声明：";
@@ -179,7 +179,7 @@
     UILabel *ll31=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(lln3.frame)+10, width-32, 20)];
     
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
-        ll31.font=[UIFont systemFontOfSize:17 weight:2];
+        ll31.font=[UIFont systemFontOfSize:17 weight:1.5];
     else
         ll31.font=[UIFont systemFontOfSize:17];
     ll31.textColor=[UIColor blackColor ];
@@ -190,10 +190,18 @@
     
     
     
-    UILabel *lln4=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(ll31.frame)+10, width-32, 20)];
+    
+
+    
+    UIImageView *img2=[[UIImageView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ll31.frame)+10, width-80, (width-80)*33/26)];
+    img2.image=[UIImage imageNamed:@"bbbb.jpg"];
+    
+    [_chuangye addSubview:img2];
+    
+    UILabel *lln4=[[UILabel alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(img2.frame)+10, width-32, 20)];
     
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
-        lln4.font=[UIFont systemFontOfSize:14 weight:2];
+        lln4.font=[UIFont systemFontOfSize:14 weight:1.5];
     else
         lln4.font=[UIFont systemFontOfSize:14];
     lln4.textColor=[UIColor blackColor];
@@ -202,12 +210,6 @@
     lln4.numberOfLines=0;
     [lln4 sizeToFit];
     [_chuangye addSubview:lln4];
-
-    
-    UIImageView *img2=[[UIImageView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(lln4.frame)+10, width-80, 219)];
-    img2.image=[UIImage imageNamed:@"aaaa"];
-    
-    [_chuangye addSubview:img2];
 }
 -(void)labelTextF
 {

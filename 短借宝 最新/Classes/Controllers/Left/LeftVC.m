@@ -141,7 +141,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if([[NSUserDefaults standardUserDefaults] integerForKey:@"ture"]==1){
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"wobumingbai"]==1){
         _xinxi.hidden=NO;
         _geren.hidden=NO;
         _ll.hidden=YES;

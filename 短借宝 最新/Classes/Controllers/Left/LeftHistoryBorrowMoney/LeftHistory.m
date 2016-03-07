@@ -87,20 +87,21 @@
 {
     
 
-        i++;
+        i=1;
+    _array=[[NSMutableArray alloc] init];
     [self DangQianDaiKuan];
     
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
-        [self.tableView reloadData];
+        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
         [self.tableView headerEndRefreshing];
     });
-    
+    [self.tableView reloadData];
 
 }
 
@@ -112,13 +113,14 @@
     [self DangQianDaiKuan];
 
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
-        [self.tableView reloadData];
+        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableView footerEndRefreshing];
     });
+    [self.tableView reloadData];
 }
 -(void)DangQianDaiKuan
 {
@@ -142,7 +144,7 @@
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @try
         {
-            NSLog(@"%@",responseObject);
+            NSLog(@"－－－－%@",responseObject);
             
             [HUD hide:YES];
             
@@ -154,13 +156,34 @@
             
             
             if (resultDic.count==0) {
-                NSLog(@"已经是最后一页");
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"已经是最后一页";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
             }else{
                 
                 [self.array addObjectsFromArray:resultDic];
                 
                 NSLog(@"rrrr%lu",(unsigned long)self.array.count);
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"加载成功";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+
                 [self.tableView reloadData];
                 
                 
@@ -341,7 +364,7 @@
     NSString *currentDateStr = [dateFormatter stringFromDate: detaildate];
     
 
-    mm6.text=[NSString stringWithFormat:@"还款时间:%@",currentDateStr];
+    mm6.text=[NSString stringWithFormat:@"应还时间:%@",currentDateStr];
     mm6.textAlignment=NSTextAlignmentCenter;
     mm6.numberOfLines=0;
     

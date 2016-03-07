@@ -206,9 +206,22 @@
     
     
     
-    _topSlider =[[ASValueTrackingSlider alloc]initWithFrame:CGRectMake(25, 150, width-50, 30)];
+    _topSlider =[[ASValueTrackingSlider alloc]initWithFrame:CGRectMake(25, 130, width-50, 30)];
+    UILabel*lable1=[[UILabel alloc] initWithFrame:CGRectMake(25, 165, 40, 20)];
+    UILabel*lable2=[[UILabel alloc] initWithFrame:CGRectMake(width-65, 165, 40, 20)];
+    UILabel*lable3=[[UILabel alloc] initWithFrame:CGRectMake(35, 242, 40, 20)];
+    UILabel*lable4=[[UILabel alloc] initWithFrame:CGRectMake(width-55, 242, 40, 20)];
+    lable1.textColor =[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
+    lable2.textColor =[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
+    lable3.textColor =[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
+    lable4.textColor =[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
+    
+    [_huadong addSubview:lable4];
+    [_huadong addSubview:lable3];
+    [_huadong addSubview:lable2];
+    [_huadong addSubview:lable1];
     [_huadong addSubview:_topSlider];
-    _bottomSlider =[[ASValueTrackingSlider alloc]initWithFrame:CGRectMake(25, 230, width-50, 30)];
+    _bottomSlider =[[ASValueTrackingSlider alloc]initWithFrame:CGRectMake(25, 210, width-50, 30)];
     [_huadong addSubview:_bottomSlider];
     
     _topSlider.dataSource=self;
@@ -238,7 +251,7 @@
     [_huadong addSubview:view_QueRen];
     
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.origin.x,view_QueRen.frame.origin.y/16, view_QueRen.frame.size.width, 20)];
-    label.text=@"请选择贷款金额期限";
+    label.text=@"请选择贷款金额和期限";
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor =[UIColor colorWithRed:97.0/255 green:97.0/255 blue:97.0/255 alpha:1.0f];
     UIFont * tfont = [UIFont systemFontOfSize:14];
@@ -312,7 +325,11 @@
             {
                 
                 NSLog(@"\njiekuangkjie\n\n-----\n%@",responseObject);
-                
+                lable1.text=[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkjemin"]];
+                lable2.text=[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkjemax"]];
+                lable3.text=[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmin"]];
+                lable4.text=[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmax"]];
+                _bottomtext.text=[NSString stringWithFormat:@"%@天",[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmin"]];
                 _feilu.text=[NSString stringWithFormat:@"%.2f元",[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkjemin"] intValue]*[[[responseObject objectForKey:@"jdlv"] objectForKey:@"jkqxmin"] intValue]*[[[responseObject objectForKey:@"jdlv"] objectForKey:@"pt_jblv"] floatValue]*0.001];
                 [HUD hide:YES];
                 HUD=nil;

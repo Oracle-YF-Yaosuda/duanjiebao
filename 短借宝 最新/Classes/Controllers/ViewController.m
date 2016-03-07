@@ -447,7 +447,7 @@
             HUD.mode = MBProgressHUDModeText;
             
             HUD.labelText = @"自动登录成功";
-            
+            [defaults3 setObject:@"1" forKey:@"wobumingbai"];
             HUD.margin = 10.f;
             
             HUD.removeFromSuperViewOnHide=YES;
@@ -459,7 +459,7 @@
         }
         @catch (NSException * e) {
             HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            
+            [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"wobumingbai"];
             HUD.mode = MBProgressHUDModeText;
             
             HUD.labelText=@"请检查你的网络连接!";
@@ -476,7 +476,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"%@",error);
-        
+        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"wobumingbai"];
         HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         
         HUD.mode = MBProgressHUDModeText;

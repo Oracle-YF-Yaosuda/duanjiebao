@@ -1097,10 +1097,10 @@
             </objects>
             <point key="canvasLocation" x="-1112" y="3475"/>
         </scene>
-        <!--柜台还款-->
+        <!--网银还款-->
         <scene sceneID="WoJ-Vs-eMD">
             <objects>
-                <viewController storyboardIdentifier="guitai" title="柜台还款" id="RU9-g0-QiM" customClass="guitaiViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="guitai" title="网银还款" id="RU9-g0-QiM" customClass="guitaiViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jrc-4W-21M"/>
                         <viewControllerLayoutGuide type="bottom" id="hjV-5k-kVH"/>
@@ -1111,7 +1111,7 @@
                         <animations/>
                         <color key="backgroundColor" red="0.89803921568627454" green="0.90588235294117647" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="柜台还款说明" id="wGS-he-clR"/>
+                    <navigationItem key="navigationItem" title="网银还款说明" id="wGS-he-clR"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nlm-BP-UgF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2814,7 +2814,7 @@
                                     <constraint firstAttribute="height" constant="40" id="ewY-OZ-z49"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWE-Zr-BCc">
                                 <rect key="frame" x="230" y="58" width="90" height="40"/>
@@ -2878,6 +2878,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="注册" id="tyx-Np-jgd"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="Yanzhengma" destination="Hek-47-7PD" id="B1r-cJ-p28"/>
                         <outlet property="button_time" destination="JWE-Zr-BCc" id="ddv-Kb-DQG"/>
@@ -4255,6 +4256,34 @@
                                                     <action selector="buttom:" destination="gm3-gF-KAm" eventType="valueChanged" id="f7A-OO-xa6"/>
                                                 </connections>
                                             </slider>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROS-9e-3wA">
+                                                <rect key="frame" x="8" y="75" width="42" height="21"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56q-Xg-o8J">
+                                                <rect key="frame" x="270" y="78" width="42" height="21"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JBL-Hl-zW6">
+                                                <rect key="frame" x="8" y="142" width="42" height="21"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSE-PD-Nx6">
+                                                <rect key="frame" x="270" y="142" width="42" height="21"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4333,6 +4362,10 @@
                         <outlet property="bottomtext" destination="2nI-5s-Etj" id="bcg-vv-IbR"/>
                         <outlet property="feilu" destination="h23-kJ-4SL" id="4RS-La-5hd"/>
                         <outlet property="huankuanshuoming" destination="u8L-f6-Obp" id="y4f-d0-0kz"/>
+                        <outlet property="lable1" destination="ROS-9e-3wA" id="2wL-lV-BTV"/>
+                        <outlet property="lable2" destination="56q-Xg-o8J" id="svR-aN-Cec"/>
+                        <outlet property="lable3" destination="JBL-Hl-zW6" id="ASu-Gy-uh1"/>
+                        <outlet property="lable4" destination="SSE-PD-Nx6" id="QgU-K8-yAY"/>
                         <outlet property="topSlider" destination="2U3-Sg-PDZ" id="93K-Gj-O54"/>
                         <outlet property="toptext" destination="bzz-8b-sbf" id="ozC-la-dXv"/>
                     </connections>
@@ -4476,7 +4509,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="借款利息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afR-fC-rG0">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="借款费用" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afR-fC-rG0">
                                                     <rect key="frame" x="17" y="11" width="68" height="21"/>
                                                     <animations/>
                                                     <constraints>
@@ -5833,7 +5866,7 @@
                                 <constraints>
                                     <constraint firstItem="HQ9-1S-qLi" firstAttribute="leading" secondItem="wFa-Rj-ruf" secondAttribute="leading" constant="10" id="9w6-bz-Eoo"/>
                                     <constraint firstItem="HQ9-1S-qLi" firstAttribute="top" secondItem="wFa-Rj-ruf" secondAttribute="top" constant="74" id="Pr0-YZ-elb"/>
-                                    <constraint firstAttribute="trailing" secondItem="HQ9-1S-qLi" secondAttribute="trailing" constant="10" id="zxg-b0-PnZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="HQ9-1S-qLi" secondAttribute="trailing" constant="10" id="ah9-9n-pYn"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -5927,9 +5960,9 @@
         <image name="ziliao_09" width="350" height="350"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8cC-2w-PN9"/>
-        <segue reference="fKB-ig-uEu"/>
-        <segue reference="Kgg-Ed-dMk"/>
-        <segue reference="GO4-nQ-Ibs"/>
+        <segue reference="eTH-sR-cqa"/>
+        <segue reference="lOi-2U-Igb"/>
+        <segue reference="EG1-K0-Xz7"/>
+        <segue reference="IHM-td-Fzo"/>
     </inferredMetricsTieBreakers>
 </document>

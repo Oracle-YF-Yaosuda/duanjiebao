@@ -388,13 +388,7 @@
 - (void)selectedItemAtIndex:(int)index
 {
     
-    
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Tianshu"]!=nil)
-//    {
-    
-       // int  mm=[[[NSUserDefaults standardUserDefaults] objectForKey:@"Tianshu"] intValue];
-        
-        
+
     IGLDropDownItem *item = self.dropDownMenu.dropDownItems[index];
     //取值
     

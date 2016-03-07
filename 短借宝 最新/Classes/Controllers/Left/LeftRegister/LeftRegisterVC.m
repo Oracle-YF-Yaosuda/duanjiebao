@@ -590,6 +590,7 @@
                 HUD.mode = MBProgressHUDModeText;
                 
                 HUD.labelText = @"登录成功";
+                [defaults3 setObject:@"1" forKey:@"wobumingbai"];
                 
                 HUD.margin = 10.f;
                 

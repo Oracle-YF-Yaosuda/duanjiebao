@@ -481,7 +481,7 @@
                     }
                     
                     
-                    //  [self ShiFouFeYiDaiKuan];
+                   
                     
                     
                 }
@@ -556,7 +556,7 @@
    
     
     [manager POST:url1 parameters:@{@"keyword":strJson} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+        NSLog(@"\n\n\n---\n\n%@",responseObject);
         @try
         {
             
@@ -567,16 +567,16 @@
             
             if ([[defaults3 objectForKey:@"DaiKuanShiFouKeYi"] intValue]==0) {
                 
-                _JieKuanJinE.text=@"元";
-                _HuanKuanTianShu.text=@"天";
-                _JieKuanFeiYong.text=@"元";
-                _HuanKuanJinE.text=@"元";
-                _DaoZhangJinE.text=@"元";
+                _JieKuanJinE.text=@"0元";
+                _HuanKuanTianShu.text=@"0天";
+                _JieKuanFeiYong.text=@"0元";
+                _HuanKuanJinE.text=@"0元";
+                _DaoZhangJinE.text=@"0元";
                 _JieKuanShiJian.text=@"";
                 _HuanKuanShiJian.text=@"";
                 
                 
-            }
+            }else
             [self DangQianDaiKuan];
             
             // }
