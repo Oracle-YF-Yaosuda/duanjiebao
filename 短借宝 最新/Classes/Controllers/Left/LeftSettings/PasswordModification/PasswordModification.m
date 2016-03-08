@@ -82,7 +82,7 @@
     return B;
 }
 - (void)XiuGaiMIMa:(UIButton *)sender {
-    
+    [self.view endEditing:YES];
     if (self.XinMiMa.text.length>0 &&  [self.XinMiMa.text isEqualToString:self.ZaiCiShuRuXInMIMa.text]) {
         
     

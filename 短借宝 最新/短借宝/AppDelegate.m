@@ -34,7 +34,7 @@
     [self initPropertys];
     [self initTopLayout];
     
-    application.applicationIconBadgeNumber = 0;
+   // application.applicationIconBadgeNumber = 0;
    
     
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)

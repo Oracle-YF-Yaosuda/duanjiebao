@@ -70,7 +70,7 @@
     [self.view addSubview:_tixin];
     
     
-    AppDelegate *myDelegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     self.sw.on=myDelegate.bo;
     
@@ -186,7 +186,7 @@
     BOOL isButtonOn = [self.sw isOn];
     if (isButtonOn) {
          _kaiqi.text=@"开启提醒";
-        AppDelegate *myDelegate = [[UIApplication sharedApplication] delegate];
+        AppDelegate *myDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         myDelegate.bo=YES;
         
@@ -217,7 +217,7 @@
         
         _kaiqi.text=@"关闭提醒";
         
-        AppDelegate *myDelegate = [[UIApplication sharedApplication] delegate];
+        AppDelegate *myDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         myDelegate.bo=NO;
         
@@ -385,7 +385,7 @@
     
     self.dropDownMenu.flipWhenToggleView = YES;
 }
-- (void)selectedItemAtIndex:(int)index
+- (void)selectedItemAtIndex:(long)index
 {
     
 
@@ -397,7 +397,7 @@
     NSString  *string = [item.text substringToIndex:4];//截取下标4之后的字符串
    
      NSString *str= [string substringFromIndex:3];//截取下标2之前的字符串
-    NSLog(@"截取的值为：%@---%d",str,index);
+    NSLog(@"截取的值为：%@---%lu",str,index);
         
         //NSString *JKSJ=[[NSUserDefaults standardUserDefaults] objectForKey:@"JKSJ"];
       //  NSString *DKSJ=[[NSUserDefaults standardUserDefaults]objectForKey:@"DKSJ"];
@@ -486,7 +486,7 @@
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
-    localNotification.alertBody = @"您该还款了";
+    localNotification.alertBody = @"您该还款了～";
     //设置通知动作按钮的标题
     localNotification.alertAction = @"查看";
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
@@ -516,7 +516,10 @@
         
         
     }
-        
+    
+    
+    
+    
   //  }
 }
 

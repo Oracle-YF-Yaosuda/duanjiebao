@@ -55,13 +55,20 @@
 }
 
 - (void)bun:(UIButton *)sender {
-    
+//    
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"56025bf7e0f55ab30c003242"
                                       shareText:@"短借宝 助你一“币”之力"
                                      shareImage:[UIImage imageNamed:@"Icon-60.png"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];
+    
+//    [UMSocialSnsService presentSnsIconSheetView:self
+//                                         appKey:@"56025bf7e0f55ab30c003242"
+//                                      shareText:@"你要分享的文字"
+//                                     shareImage:[UIImage imageNamed:@"icon.png"]
+//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,nil]
+//                                       delegate:self];
     
     
     

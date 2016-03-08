@@ -48,7 +48,19 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.3.1</string>
+	<string>1.4</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mqqwpa</string>
+		<string>mqq</string>
+		<string>mqzoneopensdkapiV2</string>
+		<string>mqbrowser</string>
+		<string>mqqapi</string>
+		<string>wtloginmqq2</string>
+		<string>mqqopensdkapiV3</string>
+		<string>weixin</string>
+		<string>wechat</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

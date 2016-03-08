@@ -40,6 +40,7 @@
 
 
 - (IBAction)phin:(UIButton *)sender {
+    [self.view endEditing:YES];
     
     UIActionSheet* actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择文件来源" delegate:self
                                                    cancelButtonTitle:@"取消"
@@ -52,6 +53,7 @@
     
     switch (sender.selectedSegmentIndex) {
         case 0:
+            [self.view endEditing:YES];
             self.HuanKuanShuoMing.hidden = NO;
             self.HuankuanQueren.hidden = YES;
             
@@ -228,7 +230,7 @@
     
     _HuanKuanBeiZHu=[[UITextField alloc] initWithFrame:CGRectMake(16, 8, width-32, 41)];
     _HuanKuanBeiZHu.font=[UIFont systemFontOfSize:13.0f];
-    _HuanKuanBeiZHu.placeholder=@"  请添加还款备注（例如 姓名及还款时间）";
+    _HuanKuanBeiZHu.placeholder=@"    请添加还款备注（例如 姓名及还款时间）";
     
     [_HuanKuanBeiZHu.layer setBorderWidth:1.0f];
     [_HuanKuanBeiZHu.layer setCornerRadius:5.0f];

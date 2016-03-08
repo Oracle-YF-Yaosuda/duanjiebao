@@ -83,7 +83,7 @@
     
     [JiFen addSubview:label];
     
-    _JiFen_label=[[UILabel alloc]initWithFrame:CGRectMake(label.frame.origin.x , CGRectGetMaxY(JiFen.frame)-45, JiFen.frame.size.width, 30)];
+    _JiFen_label=[[UILabel alloc]initWithFrame:CGRectMake(label.frame.origin.x , CGRectGetMaxY(JiFen.frame)-40, JiFen.frame.size.width, 30)];
     _JiFen_label.textColor=[UIColor colorWithRed:247/255.0 green:104/255.0 blue:0/255.0 alpha:1];
     [self labelTextF];
     [JiFen addSubview:_JiFen_label];
@@ -150,14 +150,14 @@
     
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
-        [self.tableViewk reloadData];
+        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableViewk headerEndRefreshing];
     });
-    
+    [self.tableViewk reloadData];
     
 }
 
@@ -170,13 +170,13 @@
 
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
-        [self.tableViewk reloadData];
+        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableViewk footerEndRefreshing];
-    });
+    });[self.tableViewk reloadData];
 }
 
 -(void)DianJi
@@ -280,10 +280,10 @@
     
     }else if(IPHONE6){
     
-        [attribuedstr1 addAttribute: NSFontAttributeName value: [UIFont fontWithName:@"Heiti SC" size: 50] range: NSMakeRange(0, a.length-1)];
+        [attribuedstr1 addAttribute: NSFontAttributeName value: [UIFont fontWithName:@"Heiti SC" size: 40] range: NSMakeRange(0, a.length-1)];
 
     }else{
-        [attribuedstr1 addAttribute: NSFontAttributeName value: [UIFont fontWithName:@"Heiti SC" size: 60] range: NSMakeRange(0, a.length-1)];
+        [attribuedstr1 addAttribute: NSFontAttributeName value: [UIFont fontWithName:@"Heiti SC" size: 47] range: NSMakeRange(0, a.length-1)];
     }
     //给所有字符设置字体为Zapfino，字体高度为15像素
 //    [attribuedstr1 addAttribute: NSFontAttributeName value: [UIFont fontWithName:@"Heiti SC" size: 35] range: NSMakeRange(0, a.length-1)];
@@ -292,6 +292,7 @@
     //    [attribuedstr1 addAttribute: NSForegroundColorAttributeName value: [UIColor redColor] range: NSMakeRange(4, 3)];
     //赋值给显示控件label01的 attributedText
     _JiFen_label.attributedText = attribuedstr1;
+    
     
 }
 -(void)zhixing{
@@ -328,7 +329,11 @@
             
             NSLog(@"---%@",resultDic);
             //        NSLog(@"aaaaaaaa%@",[defaults3 objectForKey:@"LiPin"]);
-            
+            if (resultDic.count==0) {
+                _tableViewk.hidden=YES;
+            }else{
+                _tableViewk.hidden=NO;
+            }
             if (JiShu==1) {
                 [shuju removeAllObjects];
             }
