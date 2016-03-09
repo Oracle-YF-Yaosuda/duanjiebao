@@ -89,7 +89,7 @@
         
         if (UIImagePNGRepresentation(_image) == nil)
         {
-            _data = UIImageJPEGRepresentation(_image, 1.0);
+            _data = UIImageJPEGRepresentation(_image, 0.5);
         }
         else
         {

@@ -63,14 +63,6 @@
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];
     
-//    [UMSocialSnsService presentSnsIconSheetView:self
-//                                         appKey:@"56025bf7e0f55ab30c003242"
-//                                      shareText:@"你要分享的文字"
-//                                     shareImage:[UIImage imageNamed:@"icon.png"]
-//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,nil]
-//                                       delegate:self];
-    
-    
     
     //    Qzone分享
     

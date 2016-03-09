@@ -410,6 +410,8 @@
                 [defaults3 setObject:[dic objectForKey:@"zjz2"] forKey:@"zjz2"];//学生证
                 [defaults3 setObject:[dic objectForKey:@"zjz3"] forKey:@"zjz3"];//个人自拍
                 [defaults3 setObject:[dic objectForKey:@"zjz4"] forKey:@"zjz4"];//个人自拍
+            
+                
             }
             else{
                 //照片资料页面

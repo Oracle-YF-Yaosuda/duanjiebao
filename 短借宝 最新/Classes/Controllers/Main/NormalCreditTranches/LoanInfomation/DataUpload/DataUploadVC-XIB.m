@@ -159,6 +159,17 @@
         
         NSString *str_hy = [NSString stringWithFormat:@"\r\n%@\r\n",[defaults objectForKey:@"id"]];
         [data appendData:[str_hy dataUsingEncoding:NSUTF8StringEncoding]];
+        NSString * DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        //文件管理器
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString* path1=[DocumentsPath stringByAppendingString:@"/image1"] ;
+        
+
+        if (![fileManager fileExistsAtPath:path1]) {
+            
+        }else{
+        
         
         // 文件参数-zjz1
         // 文件参数开始的一个标记
@@ -173,15 +184,20 @@
         
         NSString *filePath = [NSString stringWithFormat:@"%@/Documents/image1.jpg",NSHomeDirectory()];
         
-        UIImage *image = [UIImage imageNamed:filePath];
+        UIImage *image1 = [UIImage imageNamed:filePath];
         
-        NSData *zjz1 = UIImageJPEGRepresentation(image, 0.5);
+        NSData *zjz1 = UIImageJPEGRepresentation(image1, 0.5);
         
         [data appendData:zjz1];
         
         [data appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+        NSString* path2=[DocumentsPath stringByAppendingString:@"/image2"] ;
         
         
+        if (![fileManager fileExistsAtPath:path2]) {
+            
+        }else{
         // 文件参数-zjz2
         // 文件参数开始的一个标记
         [data appendData:[@"-----------------------------7da213758061\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -201,7 +217,13 @@
         
         [data appendData:zjz2];
         [data appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+        NSString* path3=[DocumentsPath stringByAppendingString:@"/image3"] ;
         
+        
+        if (![fileManager fileExistsAtPath:path3]) {
+            
+        }else{
         // 文件参数-zjz3
         // 文件参数开始的一个标记
         [data appendData:[@"-----------------------------7da213758061\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -222,7 +244,13 @@
         
         [data appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         
+        }
+        NSString* path4=[DocumentsPath stringByAppendingString:@"/image4"] ;
         
+        
+        if (![fileManager fileExistsAtPath:path4]) {
+            
+        }else{
         
         
         
@@ -245,7 +273,7 @@
         [data appendData:zjz4];
         
         [data appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        
+        }
         
         
         
