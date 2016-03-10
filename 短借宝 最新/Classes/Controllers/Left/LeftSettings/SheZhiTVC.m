@@ -112,7 +112,7 @@
             ll.text=@"常见问题";
         else if (indexPath.row==2)
         
-            ll.text=@"关于软件 (当前版本号:1.4)";
+            ll.text=@"关于软件 (当前版本号:1.0)";
         
 //        else if (indexPath.row==3)
 //        

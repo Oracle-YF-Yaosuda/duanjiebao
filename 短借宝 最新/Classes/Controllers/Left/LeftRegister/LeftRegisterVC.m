@@ -553,7 +553,7 @@
                     [defaults3 setObject:[dic objectForKey:@"zjz2"] forKey:@"zjz2"];//学生证
                     [defaults3 setObject:[dic objectForKey:@"zjz3"] forKey:@"zjz3"];//个人自拍
                     [defaults3 setObject:[dic objectForKey:@"zjz4"] forKey:@"zjz4"];//个人自拍
-              
+              [NSThread detachNewThreadSelector:@selector(jiazaitupian) toTarget:self withObject:nil];
                     
                 }
                 else{
@@ -679,6 +679,42 @@
         NSLog(@"%@",error);
         
     }];
+    
+    
+}
+-(void)jiazaitupian{
+    
+    NSUserDefaults*defaults3=[NSUserDefaults standardUserDefaults];
+    NSLog(@"%@",NSHomeDirectory());
+    NSURL*tuurl1=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",networkAddress,[defaults3 objectForKey:@"zjz1"]]];
+    NSFileManager*fm=[[NSFileManager alloc] init];
+    NSData*data1=[NSData dataWithContentsOfURL:tuurl1];
+    NSString*path1=[NSHomeDirectory() stringByAppendingString:@"/Documents/image1"];
+    if (data1) {
+        [fm createFileAtPath:path1 contents:data1 attributes:nil];
+    }
+    NSURL*tuurl2=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",networkAddress,[defaults3 objectForKey:@"zjz2"]]];
+    
+    NSData*data2=[NSData dataWithContentsOfURL:tuurl2];
+    NSString*path2=[NSHomeDirectory() stringByAppendingString:@"/Documents/image2"];
+    if (data2) {
+        [fm createFileAtPath:path2 contents:data2 attributes:nil];
+    }
+    NSURL*tuurl3=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",networkAddress,[defaults3 objectForKey:@"zjz3"]]];
+    
+    NSData*data3=[NSData dataWithContentsOfURL:tuurl3];
+    NSString*path3=[NSHomeDirectory() stringByAppendingString:@"/Documents/image3"];
+    if (data3) {
+        [fm createFileAtPath:path3 contents:data3 attributes:nil];
+    }
+    NSURL*tuurl4=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",networkAddress,[defaults3 objectForKey:@"zjz4"]]];
+    
+    NSData*data4=[NSData dataWithContentsOfURL:tuurl4];
+    NSString*path4=[NSHomeDirectory() stringByAppendingString:@"/Documents/image4"];
+    if (data4) {
+        [fm createFileAtPath:path4 contents:data4 attributes:nil];
+    }
+    
     
     
 }
