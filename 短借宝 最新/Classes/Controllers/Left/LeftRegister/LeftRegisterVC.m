@@ -62,7 +62,7 @@
     
     left3.delegate=self;
     
-
+    left3.q=@"0";
     
     [self.navigationController
      pushViewController:left3 animated:YES];

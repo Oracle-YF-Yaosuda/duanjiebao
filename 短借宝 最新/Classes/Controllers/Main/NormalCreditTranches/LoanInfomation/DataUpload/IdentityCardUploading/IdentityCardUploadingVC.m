@@ -33,46 +33,30 @@
 
 -(void)choosephoto{
     
-    UIActionSheet* actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择文件来源" delegate:self
-                                                   cancelButtonTitle:@"取消"
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:@"照相机",@"本地相簿",nil];
-    [actionSheet showInView:self.view];
+    UIActionSheet *sheet;
+    // 判断是否支持相机
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        
+    {
+        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"取消" otherButtonTitles:@"拍照",@"从相册选择", nil];
+        
+    }
+    else{
+        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"取消" otherButtonTitles:@"拍照",@"从相册选择", nil];
+        
+        
+        
+        
+    }
+    sheet.tag = 255;
+    
+    [sheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-    switch (buttonIndex) {
-        case 0://照相机
-        {                 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-            imagePicker.delegate = self;
-            imagePicker.allowsEditing = YES;
-            imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            imagePicker.mediaTypes =  [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
-            
-            imagePicker.cameraCaptureMode=UIImagePickerControllerCameraCaptureModePhoto;
-            
-            [self presentViewController:imagePicker animated:YES completion:nil];
-        }
-            break;
-        
-        case 1://本地相簿
-        {                 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-            imagePicker.delegate = self;
-            imagePicker.allowsEditing = YES;
-            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            imagePicker.mediaTypes =  [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
-            
-            [self presentViewController:imagePicker animated:YES completion:nil];
-            
-        }
-            break;
-            
-              default:
-            break;
     }
-}
 
 //当选择一张图片后进入这里
 -(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

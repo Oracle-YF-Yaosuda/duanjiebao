@@ -21,7 +21,7 @@
 @interface LeftEnrollVC : BaseVC
 @property (weak, nonatomic) IBOutlet UITextField *NumTF;
 @property (weak, nonatomic) IBOutlet UITextField *ShenFenZhengHao;
-
+@property (nonatomic , weak)NSString *q;
 @property (nonatomic,retain)id<phoneDelegate>delegate;
 
 @end

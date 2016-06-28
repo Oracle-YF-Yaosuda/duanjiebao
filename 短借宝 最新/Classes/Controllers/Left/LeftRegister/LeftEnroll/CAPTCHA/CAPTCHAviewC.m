@@ -17,7 +17,11 @@
 
 #import "Header.h"
 
-@interface CAPTCHAviewC ()
+@interface CAPTCHAviewC (){
+    int a;
+    NSInteger      secondes;//秒数
+    NSTimer        *timer;
+}
 @property (weak, nonatomic) IBOutlet UIButton *button_time;
 
 @property (weak, nonatomic) IBOutlet UILabel *phone;
@@ -39,93 +43,106 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+  
     NSUserDefaults *mySettingDataR = [NSUserDefaults standardUserDefaults];
-    
-    
+    a=[[mySettingDataR objectForKey:@"jish"]intValue];
+    NSLog(@"jishusjihu==%d",a);
+    if (a<=0) {
+        _time.text=@"60";
+    }else{
+        _time.text=[NSString stringWithFormat:@"%d",a];
+    }
     
     NSString *string =[mySettingDataR objectForKey:@"left"];
-
+    
     NSLog(@"值为：%@",string);
     
-//    手机验证
+    //    手机验证
     self.phone.text=[NSString stringWithFormat:@"请输入手机号为%@****%@收到的验证码",[string substringToIndex:3],[string substringFromIndex:7]];
     
-
-    
-
-//    验证码倒数时间
+    //    验证码倒数时间
     self.timer1=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(calcuRemainTime)userInfo:nil repeats:YES];
-//  循环
+    //  循环
     [[NSRunLoop currentRunLoop]addTimer:self.timer1 forMode:NSDefaultRunLoopMode];
-    
-    
-    
-    //上传手机号，获取验证码
+    if ([[mySettingDataR objectForKey:@"jish"] intValue]==0){
+        NSLog(@"发送验证码");
+        //上传手机号，获取验证码
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
+        
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/plain", @"text/html", nil];
-    
-    
-    NSString *url = [NSString stringWithFormat:@"%@androidLogAction!getyhzcyzm.action?sjhm=",networkAddress];
-    
-    NSString *urlToo=[NSString stringWithFormat:@"%@%@",url,string];
-    
-            [manager GET:urlToo parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                @try
-                {
-                    
-                    NSString *requestTmp = [NSString stringWithString:operation.responseString];
-                    
-                    NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-                    //系统自带JSON解析
-                    NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-                    
-                    NSLog(@"%@",[resultDic objectForKey:@"massages"]);
-                    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                    
-                    HUD.mode = MBProgressHUDModeText;
-                    
-                    HUD.labelText = [resultDic objectForKey:@"massages"];
-                    
-                    HUD.margin = 10.f;
-                    
-                    HUD.removeFromSuperViewOnHide=YES;
-                    
-                    [HUD hide:YES afterDelay:2];
-                    
-                    
-                    
-
-                }
-                @catch (NSException * e) {
-                    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                    
-                    HUD.mode = MBProgressHUDModeText;
-                    
-                    HUD.labelText=@"请检查你的网络连接!";
-                    
-                    HUD.margin = 10.f;
-                    
-                    HUD.removeFromSuperViewOnHide=YES;
-                    
-                    [HUD hide:YES afterDelay:1];
-                }
+        
+        
+        NSString *url = [NSString stringWithFormat:@"%@androidLogAction!getyhzcyzm.action?sjhm=",networkAddress];
+        
+        NSString *urlToo=[NSString stringWithFormat:@"%@%@",url,string];
+        
+        [manager GET:urlToo parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            @try
+            {
                 
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"%@",error);
-            }];
-    
-    
-    
-    
-
-    
-    
+                NSString *requestTmp = [NSString stringWithString:operation.responseString];
+                
+                NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+                //系统自带JSON解析
+                NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+                
+                NSLog(@"%@",[resultDic objectForKey:@"massages"]);
+                HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText = [resultDic objectForKey:@"massages"];
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:2];
+                
+                
+                
+                
+            }
+            @catch (NSException * e) {
+                HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                
+                HUD.mode = MBProgressHUDModeText;
+                
+                HUD.labelText=@"请检查你的网络连接!";
+                
+                HUD.margin = 10.f;
+                
+                HUD.removeFromSuperViewOnHide=YES;
+                
+                [HUD hide:YES afterDelay:1];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        
+        
+    }
     
     // Do any additional setup after loading the view.
 }
-- (IBAction)OkButton:(UIButton *)sender {
+- (void)starTimerWithRepeats:(BOOL)isRepeat WithAction:(SEL)action WithTimeInterval:(NSTimeInterval)interval
+{
+    timer = nil;
+    if (isRepeat)
+    {
+        timer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:action userInfo:nil repeats:isRepeat];
+        
+    }else
+    {
+        timer = [NSTimer timerWithTimeInterval:10 target:self selector:action userInfo:nil repeats:isRepeat];
+    }
+    
+    [timer fire];
+}
 
+- (IBAction)OkButton:(UIButton *)sender {
+    
     
     if (self.Yanzhengma.text.length==4) {
         
@@ -149,7 +166,7 @@
         
         
         NSDictionary *dataDictionary= [NSDictionary dictionaryWithObjectsAndKeys:aa,@"dxyzm",[myDic valueForKey:@"name"],@"zcsjhm",[myDic valueForKey:@"pass"],@"password",[myDic valueForKey:@"shenfenzhenghao"],@"sfzh",nil];
-      
+        
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *jasonString = [writer stringWithObject:dataDictionary];
         NSString *url2 = [NSString stringWithFormat:@"%@androidLogAction!register.action?register=%@",networkAddress,jasonString];
@@ -210,7 +227,7 @@
                 }
                 
                 
-
+                
                 
             }
             @catch (NSException * e) {
@@ -232,7 +249,7 @@
             NSLog(@"%@",error);
             
         }];
-
+        
         
         
         
@@ -254,30 +271,27 @@
         
     }
     
-    
-    
-    
-
-    
-   
-
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.timer1 invalidate];
+    timer=nil;
+}
 -(void)calcuRemainTime
 {
     
     self.button_time.userInteractionEnabled = NO;
     
-    int a=self.time.text.intValue;
-    
+    a=self.time.text.intValue;
+    NSUserDefaults * ppp=[NSUserDefaults standardUserDefaults];
+    [ppp setObject:[NSString stringWithFormat:@"%d",a] forKey:@"jish"];
     if (--a<0) {
-        
+    
         
         [self.timer1 invalidate];
         
         self.time.text=@"";
         
-//        self.button_time.titleLabel.text=@"点击再次发送";
         [self.button_time setTitle:@"点击再次发送" forState:UIControlStateNormal];
         
         self.button_time.userInteractionEnabled = YES;
@@ -289,34 +303,26 @@
     }
     
 }
-
-
 - (IBAction)button_time:(UIButton *)sender {
-    
+    NSLog(@"%d",a);
     self.time.text=@"60";
-//    self.button_time.titleLabel.text=@"  秒后重发";
-    [self.button_time setTitle:@"   秒后重发" forState:UIControlStateNormal];
 
+    //    self.button_time.titleLabel.text=@"  秒后重发";
+    [self.button_time setTitle:@"   秒后重发" forState:UIControlStateNormal];
+    
     
     self.timer1=[NSTimer scheduledTimerWithTimeInterval:1.0
                                                  target:self
                                                selector:@selector(calcuRemainTime)
                                                userInfo:nil
                                                 repeats:YES];
-       [[NSRunLoop currentRunLoop]addTimer:self.timer1 forMode:NSDefaultRunLoopMode];
-    
-
-
-
+    [[NSRunLoop currentRunLoop]addTimer:self.timer1 forMode:NSDefaultRunLoopMode];
 }
-
-
-
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (buttonIndex==0) {
         
-         [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
         
     }
 }
@@ -332,13 +338,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -27,11 +27,14 @@
 
 @implementation LeftEnrollVC{
     MBProgressHUD *HUD;
+    NSTimer*timer1;
+    int a;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+     [timer1 invalidate];
+
     // Do any additional setup after loading the view.
     
     [_NumTF addTarget:self action:@selector(changePhoneNumValue) forControlEvents:UIControlEventEditingChanged];
@@ -42,8 +45,39 @@
     [_passwordNmu2 addTarget:self action:@selector(changePassword2NumValue) forControlEvents:UIControlEventEditingChanged];
     
     
+    
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [timer1 invalidate];
+    if ([_q isEqualToString:@"0"]) {
+        _q =@"1";
+        NSUserDefaults*ppp=[NSUserDefaults standardUserDefaults];
+        [ppp setObject:@"0" forKey:@"jish"];
+        NSLog(@" tiaoguolaide \n\n%@",[ppp objectForKey:@"jish"]);
+        timer1=nil;
+    }else{
+        timer1=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(calcuRemainTime)userInfo:nil repeats:YES];
+    }
+    
+     
+}
+-(void)viewWillDisappear:(BOOL)animated{
+     [timer1 invalidate]; timer1=nil;
+}
+-(void)calcuRemainTime{
+    NSUserDefaults*ppp=[NSUserDefaults standardUserDefaults];
+    a=[[ppp objectForKey:@"jish"] intValue];
+    NSLog(@"%d",a);
+    if (a--<2) {
+     
+        [ppp setObject:[NSString stringWithFormat:@"%d",a] forKey:@"jish"];
+        [timer1 invalidate];
+        NSLog(@"%d",a);
+        
+    }
+    [ppp setObject:[NSString stringWithFormat:@"%d",a] forKey:@"jish"];
 
+}
 -(void)changePhoneNumValue
 {
     int MaxLen = 11;
@@ -311,8 +345,9 @@
             
             CAPTCHAviewC *l=[self.storyboard instantiateViewControllerWithIdentifier:@"CAPTCHA" ];
             
-            [self.navigationController
-             pushViewController:l animated:YES];
+            [self.navigationController pushViewController:l animated:YES];
+
+            
             
 //            储存密码和账户
             NSDictionary *myDictionary=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.NumTF.text,regPassword,self.ShenFenZhengHao.text, nil] forKeys:[NSArray arrayWithObjects:@"name",@"pass",@"shenfenzhenghao", nil]];
